@@ -14,12 +14,9 @@ export default function SignUp() {
     const [confirmPassword, setconfirmPassWord] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    // const [otpsection, setOtpsection] = useState(false); 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
-    
-    // const [otp, setOtp] = useState('');
 
 
     const navigate = useNavigate();
@@ -50,7 +47,12 @@ export default function SignUp() {
     }
 
     useEffect(() => {
-        window.location.reload();
+        const hasRefreshed = localStorage.getItem("signupPageRefreshed");
+
+        if (!hasRefreshed) {
+            localStorage.setItem("signupPageRefreshed", "true");
+            window.location.reload();
+        }
     },[]);
 
     return (

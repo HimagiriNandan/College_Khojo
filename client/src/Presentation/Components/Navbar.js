@@ -60,21 +60,10 @@ const Navbar = () => {
             setNavbarActive("helpandfeedback");
         }
         console.log(path);
-    }, [window.location.pathname]); // Add path as a dependency
+    }, [window.location.pathname]);
     const clearCookie = (name) => {
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
     };
-    
-    // Function to clear all cookies
-    const clearAllCookies = () => {
-        document.cookie.split(';').forEach((c) => {
-            const cookie = c.trim();
-            const eqPos = cookie.indexOf('=');
-            const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-        });
-    };
-
     const handleLogout = async () => {
         try {
             console.log("Logging out...");
@@ -82,8 +71,6 @@ const Navbar = () => {
             const res = await axios.post("https://khojo-college-server.vercel.app/auth/logout", {}, { withCredentials: true });
             Cookies.remove('token');
             Cookies.remove('access-token');
-            
-            // Clear session from frontend
             if(res.status === 200){
                 console.log("recieved 200");
                 dispatch(resetUserData());
@@ -96,6 +83,7 @@ const Navbar = () => {
                 console.log("dispatched timer");
                 dispatch(clearBooks());
                 console.log("dispatched books");
+                localStorage.removeItem("signupPageRefreshed");
                 navigate("/signin");
             }
         } catch (error) {
