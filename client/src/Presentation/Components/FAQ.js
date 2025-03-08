@@ -2,7 +2,7 @@ import "../Styles/FAQ.css";
 import faqs from "../../Application/Services/index.js";
 const FAQ = () => {
   return (
-    <div className="mainContainer">
+    <div className="mainContainer-faq">
       <h1 className="faqHeading">Frequently Asked Questions...</h1>
         {faqs.map((faq, index) => (
           <div key={index} className="childContainer">

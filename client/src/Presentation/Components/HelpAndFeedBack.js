@@ -29,7 +29,7 @@ const HelpAndFeedBack = () => {
         </div>
         <div className="hfBtnContainer">
           <button className="hfBtn" onClick={(e) => setShowModal(true)}>FeedBack</button>
-          <button onClick={()=>{ navigate("/home#footer-box")}} className="hfBtn">Contact Us</button>
+          <button onClick={()=>{ navigate("/home#footer-box")}} className="hfBtn" style={{textWrap: "nowrap"}}>Contact Us</button>
         </div>
       </div>
       <div>

@@ -1,4 +1,4 @@
-.mainContainer{
+.mainContainer-faq{
   display: flex;
   flex-direction: column;
   margin-top: 50px;
@@ -27,4 +27,17 @@
 .answers{
   font-size: 15px;
   margin-top: 10px;
+}
+
+@media (max-width: 778px){
+  .mainContainer-faq{
+    padding: 0 5% 0 5%;
+    margin-bottom: 10px;
+  }
+  .childContainer{
+    margin: 10px 0 10px 0;
+  }
+  .faqHeading{
+    padding-left: 0;
+  }
 }

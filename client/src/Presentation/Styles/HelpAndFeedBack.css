@@ -36,7 +36,7 @@
     padding: 10px;
     border-radius: 10px;
     border: none;
-    width: 120px;
+    width: max-content;
     cursor: pointer;
   }
   
@@ -48,8 +48,6 @@
   
   .hfBtnContainer{
     display: flex;
-    /* width: 50%; */
-    /* justify-content: space-between; */
     margin-top: 20px;
     gap: 20px;
   }
@@ -61,6 +59,7 @@
     flex-direction: column;
     background-color: #f4f4f4;
     padding: 40px;
+    padding-top: 90px;
     margin: 0;
   }
   .feedbackHeading{
@@ -83,6 +82,7 @@
     width: 60%;
     flex-direction: row;
     justify-content: space-between;
+    gap: 5px;
     align-items: center;
     margin-top: 20px;
     margin-bottom: 20px;
