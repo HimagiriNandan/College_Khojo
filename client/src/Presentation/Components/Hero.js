@@ -20,7 +20,7 @@ const Hero = () =>{
             {isloading && <Loading />}
             <div className="hero-left">
                 <h1 data-aos="fade-up">“Your future starts with the right choice. Let us guide you to the path that fits you best.”</h1>
-                <button data-aos="fade-up"  data-aos-delay="400" className="herobutton">Find you Path</button>
+                <button data-aos="fade-up"  data-aos-delay="400" className="herobutton">Find your Path</button>
             </div>
             <div className="hero-right">
                 <div className="hero-img">

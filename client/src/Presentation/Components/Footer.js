@@ -38,9 +38,9 @@ const Footer = () =>{
                     <div className="footer-links">
                         <h1 className="footer-heading">Pages</h1>
                         <a href="/home" className="footer-links">Home</a>
-                        <a href="/#" className="footer-links">Exams</a>
-                        <a href="/#" className="footer-links">Materials</a>
-                        <a href="/#" className="footer-links">Help</a>
+                        <a href="/tests" className="footer-links">Exams</a>
+                        <a href="/materials" className="footer-links">Materials</a>
+                        <a href="/helpandfeedback" className="footer-links">Help</a>
                         <a href="/#" className="footer-links">Contact Us</a>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ const Footer = () =>{
                     <div className="footer-links">
                         <h1 className="footer-heading">Quick Links</h1>
                         <a href="/home" className="footer-links">About Us</a>
-                        <a href="/#" className="footer-links">Profile</a>
+                        <a href="/profile" className="footer-links">Profile</a>
                         <a href="/#" className="footer-links">After +2</a>
                         <a href="/#" className="footer-links">Hero</a>
                         <a href="/#" className="footer-links">Colleges</a>
