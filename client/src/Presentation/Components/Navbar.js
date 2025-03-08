@@ -9,7 +9,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LiaUniversitySolid } from "react-icons/lia";
 import { MdCancel } from "react-icons/md";
 import axios from "axios";
-import { persistor } from '../../Application/StateManagement/store';
 import { resetUserData } from '../../Application/StateManagement/slices/UserSlice';
 import { resetPrivateColleges } from '../../Application/StateManagement/slices/PrivateColleges';
 import { resetTestData } from '../../Application/StateManagement/slices/MocktestSlice';

@@ -4,7 +4,7 @@ const profile = require("../controller/profile");
 const updatedprofile = require("../controller/updatedprofile");
 const User = require("../Models/userschema");
 const colleges = require("../controller/collegedetails");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 require("dotenv").config();
 const isAuthenticated = require("../middleware/auth");
 const privateuniversities = require("../controller/PrivateUniversity");
