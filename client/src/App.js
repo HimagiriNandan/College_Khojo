@@ -12,6 +12,8 @@ import Profile from './Presentation/Pages/Profile';
 import Materials from './Presentation/Components/Materials';
 import {Provider} from 'react-redux';
 import store from './Application/StateManagement/store';
+import {persistor} from './Application/StateManagement/store';
+import {PersistGate} from 'redux-persist/integration/react';
 import ExamExplanation from './Presentation/Pages/ExamExplanation';
 import {useDispatch} from 'react-redux';
 import {setUserData} from './Application/StateManagement/slices/UserSlice';
@@ -22,7 +24,7 @@ import Analysis from './Presentation/Pages/AnalysisPags';
 import PrivateUniversity from './Presentation/Pages/PrivateUniversity';
 import ForgetPassword from './Presentation/Pages/ForgetPassword';
 import Loading from './Presentation/Pages/Loading';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 
@@ -95,9 +97,11 @@ function App() {
 function AppWrapper(){
   return(
     <Provider store = {store}>
+      <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <App/>
         </BrowserRouter>
+      </PersistGate>
     </Provider>
   )
 }
