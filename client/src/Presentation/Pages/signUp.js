@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +48,10 @@ export default function SignUp() {
             setError(err.response?.data?.message || "Signup failed");
         }
     }
+
+    useEffect(() => {
+        window.location.reload();
+    },[]);
 
     return (
         <>
