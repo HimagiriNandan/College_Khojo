@@ -1,9 +1,10 @@
-import { createStore, combineReducers } from 'redux';
+import { combineReducers } from '@reduxjs/toolkit';
 import timerSlice from '../slices/TimerSlice';
 import mocktestslice from '../slices/MocktestSlice';
 import bookReducer from '../slices/BookSlice';
 import userSlice from '../slices/UserSlice';
 import privateCollegesSlice from '../slices/PrivateColleges';
+import { configureStore } from '@reduxjs/toolkit';
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -15,6 +16,8 @@ const rootReducer = combineReducers({
 });
 
 // Create the Redux store
-const store = createStore(rootReducer);
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 export default store;
