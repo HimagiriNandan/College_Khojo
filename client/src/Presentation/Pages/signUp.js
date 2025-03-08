@@ -46,15 +46,6 @@ export default function SignUp() {
         }
     }
 
-    useEffect(() => {
-        const hasRefreshed = localStorage.getItem("signupPageRefreshed");
-
-        if (!hasRefreshed) {
-            localStorage.setItem("signupPageRefreshed", "true");
-            window.location.reload();
-        }
-    },[]);
-
     return (
         <>
             {isModalOpen && <OTPModalSignUp

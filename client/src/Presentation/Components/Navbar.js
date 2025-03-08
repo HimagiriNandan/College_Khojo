@@ -83,7 +83,6 @@ const Navbar = () => {
                 console.log("dispatched timer");
                 dispatch(clearBooks());
                 console.log("dispatched books");
-                localStorage.removeItem("signupPageRefreshed");
                 navigate("/signin");
             }
         } catch (error) {
