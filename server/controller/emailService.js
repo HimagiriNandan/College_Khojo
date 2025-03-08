@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 async function sendEmail(email, otp) {
   // Setting up the email options
   const mailOptions = {
-    from: "04sudharsan25@gmail.com", // Sender's email address
+    from: "khojocollege04@gmail.com", // Sender's email address
     to: email, // Recipient's email address
     subject: 'OTP Verification for Account Creation on Khojo College', // Email subject
     text: `Your OTP is: ${otp}`, // Plain-text body with OTP

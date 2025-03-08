@@ -18,7 +18,7 @@ const Path = ({ key,index, path }) => {
   }, []);
 
   return (
-    <div onClick={()=>{navigate("/exam/"+index); window.scrollTo(0,0)}} data-aos="fade-up" data-aos-delay={`${index * 100}`} className="path">
+    <div onClick={()=>{navigate("/exam/"+index); window.scrollTo(0,0)}}   className="path">
       <h2>{path.name}</h2>
       <div className="path-infor">
         <h2>Duration</h2>
@@ -216,7 +216,7 @@ const Paths = () => {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div className="paths-cont">
+        <div className="paths-cont" data-aos="fade-up">
           {pathdata.map((pat, index) => {
             return (
               <Path index={index} path={pat} />
@@ -225,7 +225,7 @@ const Paths = () => {
         </div>
       </div>
       {
-        (pathdata.length === paths.length) ? null : <button id="path-show-btn" data-aos="fade-up" data-aos-delay="300" onClick={showMorePaths} className="herobutton">Show more</button>
+        (pathdata.length === paths.length) ? null : <button id="path-show-btn" data-aos="fade-up" onClick={showMorePaths} className="herobutton">Show more</button>
       }
     </div>
   );
