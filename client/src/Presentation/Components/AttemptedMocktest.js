@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Analysis from "../Pages/AnalysisPags";
+import { setQuestionindex, setSubindex } from "../../Application/StateManagement/slices/MocktestSlice";
 
 const AttemptedMocktests = () => {
   const navigate = useNavigate();
   const id_data = useSelector((state) => state.user.id);
-//   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const data  = useSelector((state) => state.user.data.attempted_mocks);
   // Start test function
   
@@ -37,6 +38,9 @@ const AttemptedMocktests = () => {
     fetchData();
   }, []);
   async function showAnalysis(index) {
+    dispatch(setQuestionindex({ questionIndex: 0 }));
+    dispatch(setSubindex({ subIndex: 0 }));
+    console.log("hi 5");
     navigate(`/analysis/${index}`);
   }
 
