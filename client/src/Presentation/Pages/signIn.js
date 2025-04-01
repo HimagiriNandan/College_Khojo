@@ -5,18 +5,20 @@ import axios from "axios";
 import "../Styles/style.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
-
+import Loading from "./Loading";
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [hidePassword, setHidePassword] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     async function handleSubmit(event) {
         event.preventDefault();
+        setIsLoading(true);
         try {
             const response = await axios.post("https://khojo-college-server.vercel.app/auth/login", {
                 email,
@@ -30,6 +32,7 @@ export default function SignIn() {
                 dispatch(setUserId(respo.data.data._id));
             }
             // dispatch(setUserData(respo.data.user));
+            setIsLoading(false);
             navigate("/home"); // Redirect after login
         } catch (err) {
             setError(err.response?.data?.message || "Invalid email or password");
@@ -39,6 +42,7 @@ export default function SignIn() {
 
     return (
         <div className="container">
+            {isLoading && <Loading />}
             {/* Left Side - Sign In Form */}
             <div className="sign-in-content">
                 <h1>Welcome!</h1>
