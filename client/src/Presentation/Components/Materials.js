@@ -1,16 +1,20 @@
+//React file imports
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBooks } from "../../Application/StateManagement/slices/BookSlice";
-import "../Styles/Materials.css";
+
+//components import
 import Loading from "../Pages/Loading";
 
+//slices import
+import { fetchBooks } from "../../Application/StateManagement/slices/BookSlice";
+
+// css import
+import "../Styles/Materials.css";
+
+//Materials Component
 const Materials = () => {
   const dispatch = useDispatch();
   const { books, status, error } = useSelector((state) => state.books);
-
-  useEffect(() => {
-    dispatch(fetchBooks()); // Fetch books when the component loads
-  }, [dispatch]);
 
   const groupedBooks = books?.reduce((acc, book) => {
     const { category } = book;
@@ -20,6 +24,10 @@ const Materials = () => {
     acc[category].push(book);
     return acc;
   }, {});
+
+  useEffect(() => {
+    dispatch(fetchBooks()); // Fetch books when the component loads
+  }, [dispatch]);
 
   return (
     <div className="gallery">
@@ -36,7 +44,10 @@ const Materials = () => {
   );
 };
 
+//BookSection Component
+
 const BookSection = ({ category, books = [] }) => {
+
   const scrollRef = useRef(null);
 
   const scrollLeft = () => {
@@ -63,7 +74,7 @@ const BookSection = ({ category, books = [] }) => {
                 <img src={book.image} alt={book.title} />
                 <p>{book.title}</p>
                 <a href={book.driveLink} target="_blank" rel="noopener noreferrer">
-                  <button className="download-btn">Download</button>
+                  <button className="download-btn">View/Download</button>
                 </a>
               </div>
             ))

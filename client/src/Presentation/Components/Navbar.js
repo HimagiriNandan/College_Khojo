@@ -1,32 +1,63 @@
-import '../Styles/Navbar.css';
-import profile from '../Assests/profile.svg';
-import home from '../Assests/navbar-icons/home.svg';
-import exam from '../Assests/navbar-icons/exams.svg';
-import materials from '../Assests/navbar-icons/materials.svg';
-import Loading from '../Pages/Loading';
+//React file imports
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LiaUniversitySolid } from "react-icons/lia";
 import { MdCancel } from "react-icons/md";
 import axios from "axios";
+
+// components import
+import Loading from '../Pages/Loading';
+
+//slices import
 import { resetUserData } from '../../Application/StateManagement/slices/UserSlice';
 import { resetPrivateColleges } from '../../Application/StateManagement/slices/PrivateColleges';
 import { resetTestData } from '../../Application/StateManagement/slices/MocktestSlice';
 import { resetTimer } from '../../Application/StateManagement/slices/TimerSlice';
 import { clearBooks } from '../../Application/StateManagement/slices/BookSlice';
-import { useDispatch } from 'react-redux';
-import Cookies from 'js-cookie';
+
+//images import
+import profile from '../Assests/profile.svg';
+import home from '../Assests/navbar-icons/home.svg';
+import exam from '../Assests/navbar-icons/exams.svg';
+import materials from '../Assests/navbar-icons/materials.svg';
+
+// css import
+import '../Styles/Navbar.css';
 
 const Navbar = () => {
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [showSidebar, setShowSidebar] = useState(false);
-    const dropdownRef = useRef(null);
-    const [navbarActive, setNavbarActive] = useState("");
-    const [loading, setLoading] = useState(false);
-    const sidebarRef = useRef(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(false);
+    const [navbarActive, setNavbarActive] = useState("");
+    const [loading, setLoading] = useState(false);
+    const dropdownRef = useRef(null);
+    const sidebarRef = useRef(null);
     
+    
+    const handleLogout = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.post("https://khojo-college-server.vercel.app/auth/logout", {}, { withCredentials: true });
+            Cookies.remove('token');
+            Cookies.remove('access-token');
+            if(res.status === 200){
+                dispatch(resetUserData());
+                dispatch(resetPrivateColleges());
+                dispatch(resetTestData());
+                dispatch(resetTimer());
+                dispatch(clearBooks());
+                navigate("/signin");
+            }
+        } catch (error) {
+            console.error("Logout failed:", error);
+        } finally{
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -61,42 +92,12 @@ const Navbar = () => {
         }
         console.log(path);
     }, [window.location.pathname]);
-    const clearCookie = (name) => {
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-    };
-    const handleLogout = async () => {
-        try {
-            console.log("Logging out...");
-            setLoading(true);
-            const res = await axios.post("https://khojo-college-server.vercel.app/auth/logout", {}, { withCredentials: true });
-            Cookies.remove('token');
-            Cookies.remove('access-token');
-            if(res.status === 200){
-                console.log("recieved 200");
-                dispatch(resetUserData());
-                console.log("dispatched user");
-                dispatch(resetPrivateColleges());
-                console.log("dispatched colleges");
-                dispatch(resetTestData());
-                console.log("dispatched test data");
-                dispatch(resetTimer());
-                console.log("dispatched timer");
-                dispatch(clearBooks());
-                console.log("dispatched books");
-                navigate("/signin");
-            }
-        } catch (error) {
-            console.error("Logout failed:", error);
-        } finally{
-            setLoading(false);
-        }
-    };
 
     const getLinkClass = (route) => navbarActive === route ? "nav-link nav-active" : "nav-link";
 
     return (
         <nav>
-            {/* Sidebar */}
+            
             <div ref={sidebarRef} className={`sidebar${showSidebar ? " sidebar-active" : ""}`}>
                 <div className="sidebar-btn">
                     <button onClick={() => setShowSidebar(false)}>
@@ -124,17 +125,14 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Menu Button (for mobile view) */}
             <div className="menu-btn">
                 <h1 onClick={() => setShowSidebar(true)}>☰</h1>
             </div>
 
-            {/* Logo */}
             <div className="logo">
                 <h1>Khojo College</h1>
             </div>
 
-            {/* Navigation Links */}
             <div className="nav-links">
                 <div className={getLinkClass("home")}>
                     <img src={home} alt="Home" />
@@ -157,7 +155,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Profile Dropdown */}
             <div className="prof-btn" ref={dropdownRef}>
                 <img
                     onClick={() => setShowDropdown(!showDropdown)}
@@ -166,8 +163,8 @@ const Navbar = () => {
                 />
                 {loading && <Loading />}
                 <div className={`nav-dropdown${showDropdown ? " drop-active" : ""}`}>
-                    <a href="/profile">Profile</a>
-                    <a style={{cursor:"pointer"}} onClick={handleLogout} >Logout</a>
+                    <Link to="/profile">Profile</Link>
+                    <Link style={{cursor:"pointer"}} onClick={handleLogout} >Logout</Link>
                 </div>
             </div>
         </nav>

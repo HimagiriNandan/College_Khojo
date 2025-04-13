@@ -29,8 +29,7 @@ export default function SignIn() {
                 dispatch(setUserData(respo.data.data));
                 dispatch(setUserId(respo.data.data._id));
             }
-            // dispatch(setUserData(respo.data.user));
-            navigate("/home"); // Redirect after login
+            navigate("/home");
         } catch (err) {
             setError(err.response?.data?.message || "Invalid email or password");
         }
@@ -43,7 +42,7 @@ export default function SignIn() {
             <div className="sign-in-content">
                 <h1>Welcome!</h1>
                 <div className="div-para">
-                    <p className="subheading">create a free account</p>
+                    <p className="subheading">Login to your account</p>
                 </div>
 
                 {error && <p style={{ color: "red", fontWeight: 600 }}>{error} !</p>}

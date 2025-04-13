@@ -103,7 +103,7 @@ export default function ForgetPassword() {
 
                     <a href="/signin" className="forgot-password">already know the password ?</a>
 
-                    <button type="submit" style={{marginTop:"40px"}} className="herobutton">Forget Password</button>
+                    <button type="submit" style={{marginTop:"40px"}} className="herobutton">Update Password</button>
 
                 </form>
             </div> :

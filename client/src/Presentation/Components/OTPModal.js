@@ -1,8 +1,13 @@
+//React file imports
 import { useState } from "react";
-import "../Styles/OTPModal.css"; 
 import { MdCancel } from "react-icons/md";
-import Loading from "../Pages/Loading";
 import axios from "axios";
+
+// component imports
+import Loading from "../Pages/Loading";
+
+//css imports
+import "../Styles/OTPModal.css"; 
 
 const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }) => {
   const [otp, setOtp] = useState(["", "", "", "","",""]);
@@ -12,31 +17,25 @@ const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }
   const handleOtpChange = (e, index) => {
     let newOtp = [...otp];
   
-    // If the key pressed is backspace and the current input is empty, move to the previous box
     if (e.key === "Backspace" && otp[index] === "") {
       if (index > 0) {
-        // Move focus to the previous input box and delete its value
         document.getElementById(`otp-${index - 1}`).focus();
         newOtp[index - 1] = "";
       }
     } else {
-      // Handle regular input (including non-backspace)
-      newOtp[index] = e.target.value.slice(0, 1); // Allow only one digit per box
+      newOtp[index] = e.target.value.slice(0, 1);
     }
   
     setOtp(newOtp);
-  
-    // Automatically move to the next field if input is filled
     if (newOtp[index] !== "" && index < otp.length - 1) {
       document.getElementById(`otp-${index + 1}`).focus();
     }
   };
 
-  // Handle OTP submission
-    const handleOTPSubmit = async (event) => {
+  const handleOTPSubmit = async (event) => {
     event.preventDefault();
-    const otpString = otp.join(""); // Convert OTP array to string
-    setIsloading(true); // Show loading indicator while waiting for the response
+    const otpString = otp.join("");
+    setIsloading(true);
 
     try {
       const response = await axios.post(
@@ -54,8 +53,9 @@ const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }
       }
     } catch (err) {
       setError(err.response?.data?.message || "OTP verification failed");
+    } finally{
+      setIsloading(false);
     }
-    setIsloading(false); // Hide loading indicator
   };
 
   return (
@@ -80,7 +80,7 @@ const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }
                 value={digit}
                 maxLength="1"
                 onChange={(e) => handleOtpChange(e, index)}
-                onKeyDown={(e) => handleOtpChange(e, index)} // Listen for backspace key press
+                onKeyDown={(e) => handleOtpChange(e, index)}
               />
             ))}
           </div>

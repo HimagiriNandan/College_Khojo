@@ -1,7 +1,10 @@
+//React file imports
+import { useEffect } from 'react';
+
+// css and animation import
 import '../Styles/About.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
 
 const About = () => {
 

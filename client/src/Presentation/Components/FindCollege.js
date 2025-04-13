@@ -1,7 +1,12 @@
-import '../Styles/FindCollege.css';
+//React file imports
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+//component imports
 import Loading from '../Pages/Loading';
+
+// css import
+import '../Styles/FindCollege.css';
 
 const College = ({ key, college }) => {
     return (
@@ -30,7 +35,7 @@ const FindCollege = () => {
     const [selectedLocation, setSelectedLocation] = useState("");
     const [selectedCat, setSelectedCat] = useState("");
     const [collegs, setCollegs] = useState([]);
-    const [totalPages, setTotalPages] = useState(1);  // Total pages for pagination
+    const [totalPages, setTotalPages] = useState(1); 
     const [pagenumber, setPage] = useState(1);
     const [marksdata, setMarks] = useState(300);
     const [percentiledata, setPercentile] = useState(100);
@@ -39,18 +44,10 @@ const FindCollege = () => {
     const [isloading, setIsloading] = useState(false);
     const [gender, setGender] = useState("");
     const [seattype, setSeattype] = useState("");
+
     const fetchColleges = async () => {
         try {
             setIsloading(true);
-            console.log({
-                page: pagenumber,
-                marks: marksdata,
-                percentile: percentiledata,
-                ranking: rankingdata,
-                examtype : selectedOption,
-                tiertype : tiertype,
-                location: selectedLocation
-            });
             const response = await axios.post("https://khojo-college-server.vercel.app/auth/colleges", {
                 page: pagenumber,
                 marks: marksdata,
@@ -62,14 +59,12 @@ const FindCollege = () => {
                 gender : gender,
                 seattype : seattype,
             });
-            console.log(response);
+            
             if(response.data.colleges.length === 0) {
-                console.log("no colleges");
                 alert("No colleges found matching the criteria");
             }
-            console.log(response);
             setCollegs(response.data.colleges);
-            setTotalPages(response.data.totalPages);  // Assuming the backend returns totalPages
+            setTotalPages(response.data.totalPages);
         } catch (error) {
             console.error("Error fetching college data: ", error);
             setCollegs([]);
@@ -79,18 +74,6 @@ const FindCollege = () => {
             setIsloading(false);
         }
     };
-
-    useEffect(() => {
-        fetchColleges();
-    }, [pagenumber]);
-
-    useEffect(()=>{
-        // console.log("marksdata",marksdata);
-        // console.log("percentiledata",percentiledata);
-        // console.log("rankingdata",rankingdata);
-    },[marksdata,percentiledata,rankingdata])
-
-   
 
     const handlePageChange = (newPage) => {
         setPage(newPage);
@@ -105,27 +88,20 @@ const FindCollege = () => {
         setMarks(page2);
         setPage(1);
     };
-    const handleGenderChange = (page2) => {
-        setGender(page2);
-        setPage(1);
-    };
-
-    const handleSeatTypeChange = (page2) => {
-        setSeattype(page2);
-        setPage(1);
-    };
 
     const handlePercentileChange = (page2) => {
-        // console.log("percentile2");
         setPercentile(page2);
         setPage(1);
     };
 
     const handleRankChange = (page2) => {
-        // console.log("ranking2");
         setRanking(page2);
         setPage(1);
     };
+
+    useEffect(() => {
+        fetchColleges();
+    }, [pagenumber]);
 
     return (
         <>
@@ -150,7 +126,6 @@ const FindCollege = () => {
                     value={selectedLocation}
                     onChange={(e) => setSelectedLocation(e.target.value)}
                 >
-                    {/* Add location options here */}
                     <option value="" disabled>Select Location</option>
                     <option value="">All States</option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -187,7 +162,6 @@ const FindCollege = () => {
                     <option value="Lakshadweep">Lakshadweep</option>
                     <option value="Delhi">Delhi</option>
                     <option value="Puducherry">Puducherry</option>
-                    {/* Add other locations here */}
                 </select>
 
                 {(selectedOption === "JEE" || selectedOption==="") && (

@@ -1,19 +1,27 @@
-import { useState, useEffect } from "react";
-import "../Styles/feedbackModal.css";
-import { MdCancel } from "react-icons/md";
-import Loading from "../Pages/Loading";
-import axios from "axios";
+//React file imports
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { MdCancel } from "react-icons/md";
+
+//component imports
+import Loading from "../Pages/Loading";
+
+// css import
+import "../Styles/feedbackModal.css";
+
+
 const FeedbackModal = ({showModal}) => {
+  const email = useSelector((state) => state.user.data.email);
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
   const [isloading, setIsloading] = useState(false);
   const [stat, setStat] = useState(false);
-  const email = useSelector((state) => state.user.data.email);
   const [rating, setRating] = useState(0);
+
+
   async function submitFeedback(e){
     e.preventDefault();
-    console.log(email);
     try{
       setIsloading(true);
       const res = await axios.post("https://khojo-college-server.vercel.app/auth/feedback", {
@@ -33,12 +41,15 @@ const FeedbackModal = ({showModal}) => {
       setIsloading(false);
     }
   }
+
   const handleUsername = (e) => {
     setUsername(e.target.value);
   }
+
   const handleDesc = (e) => {
     setDescription(e.target.value);
   }
+
   return (
     <div className="feedbackModalmain">
       {isloading && <Loading />}

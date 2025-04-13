@@ -1,9 +1,9 @@
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
+//React file imports
 import {useSelector} from "react-redux";
-import axios from "axios";
 import { useState, useEffect } from "react";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
-// Custom Tooltip
+//CustomTooltip component
 const CustomTooltip = ({ active, payload }) => {
   
   if (active && payload && payload.length) {
@@ -24,9 +24,8 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 
-
+//Performance Chart component
 const PerformanceChart = () => {
-  const id_data = useSelector((state) => state.user.id);
   const data2 = useSelector((state) => state.user.data.attempted_mocks);
   const [data, setdata] = useState([]);
   const mockTestData = data ? data.map((d, i) => ({ test: d.title, scoredMarks: d.scoredMarks })) : [];
@@ -34,14 +33,7 @@ const PerformanceChart = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        // const response = await axios.post("https://khojo-college-server.vercel.app/mock/attemptedmocks",
-        //     {userId : id_data}
-        // );
-        // const data = await response.data;
-        // console.log(data);
-        // if(data.error!=true){
-            setdata(data2); // Make sure to access 'data' key in the response
-        
+        setdata(data2);
     } catch (error) {
         console.error("Error fetching mock tests:", error);
       }
@@ -70,7 +62,6 @@ const PerformanceChart = () => {
           <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" height={36} />
 
-          {/* Single Line with dynamic stroke */}
           <Line
             type="monotone"
             dataKey="scoredMarks"

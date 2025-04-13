@@ -1,21 +1,26 @@
+//React file imports
 import { useNavigate } from "react-router-dom";
-import "../Styles/Modals.css"
-import "../Styles/feedbackModal.css";
-import { startTime, resetTime } from "../../Application/StateManagement/slices/TimerSlice";
 import { useDispatch } from "react-redux";
 
+//slices import
+import { startTime, resetTime } from "../../Application/StateManagement/slices/TimerSlice";
 
-const StartTestModal = ({showModal, confirmation,id}) => {
+// css import
+import "../Styles/Modals.css"
+import "../Styles/feedbackModal.css";
+
+
+const StartTestModal = ({showModal, confirmation, id}) => {
   const navigate = useNavigate();
   const disptach = useDispatch();
+
   const cancelTest= () => {
     showModal()
   }
+
   function handleStart(){
-    console.log("reached here");
     confirmation("start");
-    disptach(startTime(id))
-    console.log("id dispatched:",id);
+    disptach(startTime(id));
     disptach(resetTime());
     navigate("/instructionpage");
   }

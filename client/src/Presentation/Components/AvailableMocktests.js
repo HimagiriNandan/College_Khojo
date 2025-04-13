@@ -1,27 +1,36 @@
-import "../Styles/AvailableMocktests.css";
-import { useDispatch } from "react-redux";
-import { startTime, resetTime, settestId } from "../../Application/StateManagement/slices/TimerSlice";
+//React file imports
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+
+//component imports
 import StartTestModal from "./Modals";
 import Loading from "../Pages/Loading";
+
+// slice imports
+import { startTime, } from "../../Application/StateManagement/slices/TimerSlice";
+
+// css import
+import "../Styles/AvailableMocktests.css";
+
 const AvailableMocktests = () => {
-  const navigate = useNavigate();
+
   const dispatch = useDispatch();
+
   const [showModal, setShowModal] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
   const [id, setId] = useState("");
   const [isloading, setIsloading] = useState(true);
+  const [tests, setTests] = useState([]);
+
   function confirmationModal(work){
     if(work === "start"){
       setConfirmation(true);
       return;
     }
     setConfirmation(false);
-  } 
+  }
   
-  // Start test function
   const startTest = () => {
     dispatch(startTime(id));
     setShowModal(true);
@@ -32,26 +41,19 @@ const AvailableMocktests = () => {
     setShowModal(false);
   }
 
-  // State to hold the tests data
-  const [tests, setTests] = useState([]);
-
-  // Fetch mocktests data from the server
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.post("https://khojo-college-server.vercel.app/mock/mocktests");
         const data = await response.data;
         setTests(data.data || []); 
-        // Make sure to access 'data' key in the response
         setIsloading(false);
       } catch (error) {
         console.error("Error fetching mock tests:", error);
-      }finally{
-        // setIsloading(false);
       }
     }
     fetchData();
-  }, []);
+  }, []);                         
 
   return (
     <>
@@ -63,7 +65,6 @@ const AvailableMocktests = () => {
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <div className="showtests">
           {
-            // If there are no tests available, display a message
             (tests===undefined) ? <h2>No tests available</h2>
 
             :
@@ -71,7 +72,7 @@ const AvailableMocktests = () => {
               return (
                 <div key={index} className="testContainer">
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-                    <h2 className="testName">{test.title}</h2> {/* Using 'test.title' */}
+                    <h2 className="testName">{test.title}</h2>
                     <div className="test-tag-cont">
                       <p id="test-tag" className="tag">3 hours</p>
                       <p id="test-tag" className="tag">300 Marks</p>

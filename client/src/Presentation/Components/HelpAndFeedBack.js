@@ -1,13 +1,20 @@
-import "../Styles/HelpAndFeedBack.css";
-import FeedbackModal from "./feedbackModal";
+//React file imports
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+
+//components import
+import FeedbackModal from "./feedbackModal";
+
+// css import
+import "../Styles/HelpAndFeedBack.css";
+
+
 const HelpAndFeedBack = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
   const location = useLocation();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (location.hash) {
@@ -17,6 +24,7 @@ const HelpAndFeedBack = () => {
       }
     }
   }, [location]);
+
   return (
     <>
     {showModal && <FeedbackModal showModal = {setShowModal}/>}
@@ -33,7 +41,8 @@ const HelpAndFeedBack = () => {
         </div>
       </div>
       <div>
-        <img src="https://res.cloudinary.com/duyuxtpau/image/upload/v1739688083/kfrhxsbkl1racym5pnhi.webp" alt="helpandfeedback" className="hfImage"/>
+        <img src="https://res.cloudinary.com/duyuxtpau/image/upload/v1739688083/kfrhxsbkl1racym5pnhi.webp"
+        alt="helpandfeedback" className="hfImage"/>
       </div>
     </div>
     </>

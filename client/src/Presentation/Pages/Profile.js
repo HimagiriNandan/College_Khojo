@@ -1,4 +1,3 @@
-import Navbar from '../Components/Navbar';
 import '../Styles/Profile.css';
 import profileimg from  '../Assests/profile.svg';
 import { useEffect, useState } from 'react';
@@ -23,10 +22,6 @@ const Profile = () =>{
     useEffect(()=>{
 
         setIsloading(true);
-        const data = localStorage.getItem("user");
-
-        
-        console.log(data);
         console.log(user);
         setName(user.name);
         setLocation(user.location);

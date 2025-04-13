@@ -1,12 +1,17 @@
-import heroimg from '../Assests/hero.png';
+//React file imports
+import { useEffect, useState } from 'react';
+
+//components import
+import Loading from '../Pages/Loading';
+
+// css and animation import
 import '../Styles/Hero.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect, useState } from 'react';
-import Loading from '../Pages/Loading';
 
 const Hero = () =>{
     const [isloading, setIsloading] = useState(true);
+
     useEffect(()=>{
         AOS.init({
             duration: 1000,
@@ -15,6 +20,7 @@ const Hero = () =>{
         });
         setIsloading(false);
     },[])
+
     return (
         <div className="hero">
             {isloading && <Loading />}

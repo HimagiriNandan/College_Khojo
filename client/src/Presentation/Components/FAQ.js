@@ -1,5 +1,10 @@
-import "../Styles/FAQ.css";
+//React file imports
 import faqs from "../../Application/Services/index.js";
+
+// css import
+import "../Styles/FAQ.css";
+
+
 const FAQ = () => {
   return (
     <div className="mainContainer-faq">

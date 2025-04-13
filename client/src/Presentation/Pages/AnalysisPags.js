@@ -10,7 +10,7 @@ const Analysis = () => {
   const attemptedMocks = useSelector((state) => state.user.data?.attempted_mocks || []);
   const data = attemptedMocks[parsedIndex] || { sections: [] }; // Fallback to avoid undefined errors
 
-  const [subject, setSubject] = useState(useSelector((state) => state.mocktest.data.sections[0].name));
+  const [subject, setSubject] = useState('Physics');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const subIndex = useSelector((state) => state.mocktest.subjectIndex);
   const questionIndex = useSelector((state) => state.mocktest.questionIndex);

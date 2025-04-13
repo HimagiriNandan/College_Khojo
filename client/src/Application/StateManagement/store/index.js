@@ -7,29 +7,28 @@ import bookReducer from "../slices/BookSlice";
 import userSlice from "../slices/UserSlice";
 import privateCollegesSlice from "../slices/PrivateColleges";
 
-// Use sessionStorage for the persistConfig
 const persistConfig = {
   key: "timer",
-  storage: storageSession // Use sessionStorage instead of localStorage
+  storage: storageSession 
 }
 
 const persistedReducer = persistReducer(persistConfig, timerSlice);
 
 const persistMocktestConfig = {
   key: "mocktest",
-  storage: storageSession // Use sessionStorage
+  storage: storageSession 
 }
 const persistedMocktestReducer = persistReducer(persistMocktestConfig, mocktestslice);
 
 const persistUserConfig = {
   key: "user",
-  storage: storageSession // Use sessionStorage
+  storage: storageSession 
 }
 const persistedUserReducer = persistReducer(persistUserConfig, userSlice);
 
 const persistPrivateCollegesConfig = {
   key: "privateColleges",
-  storage: storageSession // Use sessionStorage
+  storage: storageSession 
 }
 const persistedPrivateCollegesReducer = persistReducer(persistPrivateCollegesConfig, privateCollegesSlice);
 

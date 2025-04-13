@@ -2,7 +2,7 @@ const College = require('../Models/College');
 
 async function collegeDetails(req, res) {
     var {
-        category = "", percentile = 100, marks = 300, gender = "", location = "",
+        percentile = 100, marks = 300, gender = "", location = "",
         page = 1, limit = 5,rank  = 0,examtype = "JEE Mains", tiertype,
         seattype = ""
     } = req.body;
@@ -12,7 +12,6 @@ async function collegeDetails(req, res) {
     percentile = (percentile===-1) ? 100 : percentile;
     marks = (marks===-1) ? 300 : marks;
     rank = (rank===-1) ? 0 : rank;
-    console.log("percentile : ",percentile,", marks :",marks,", rank : ",rank );
  
     try {
         // Fetch colleges based on query parameters
@@ -30,21 +29,21 @@ async function collegeDetails(req, res) {
                 $regex: location ? new RegExp(location, 'i') : '', // Case-insensitive matching
             },
             "Exam Type": {
-                $regex: examtype ? new RegExp(examtype, 'i') : '', // Case-insensitive matching
+                $regex: examtype ? new RegExp(examtype, 'i') : '', 
             },
             Tier : {
-                $regex: tiertype ? new RegExp(tiertype, 'i') : '', // Case-insensitive matching
+                $regex: tiertype ? new RegExp(tiertype, 'i') : '', 
             },
             "Seat Type":{
-                $regex: seattype ? new RegExp(seattype, 'i') : '', // Case-insensitive matching
+                $regex: seattype ? new RegExp(seattype, 'i') : '', 
             },
             "Gender":{
                 $regex : gender ? new RegExp(gender,'i') : ''
             }
 
         })
-        .skip(skip) // Skip the number of items based on page
-        .limit(limit); // Limit the number of results returned per page
+        .skip(skip) 
+        .limit(limit);
 
         if (!collegedata || collegedata.length === 0) {
             return res.status(404).json({ message: 'No colleges found matching the criteria' });

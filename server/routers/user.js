@@ -27,11 +27,7 @@ const upload = multer({ storage: storage });
 
 
 const uploadImageIfPresent = async (req, res, next) => {
-  // Access the uploaded file from multer
-  const { file } = req; // Accessing the uploaded file from req.file
-  console.log("Uploaded file:", file); // Log the file object for debugging
-  const { profilepic } = req.body;
-  console.log("profilepic", profilepic);
+  const { file } = req;
 
   if (file) {
       try {
@@ -55,7 +51,6 @@ const uploadImageIfPresent = async (req, res, next) => {
                   // Save the secure URL of the uploaded image to the request body
                   req.body.pic = result.secure_url;
                   console.log("Image uploaded to Cloudinary:", result.secure_url);
-                  // Proceed to the next middleware or route handler
                   next();
               }
           );

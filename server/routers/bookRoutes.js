@@ -6,9 +6,8 @@ const router = express.Router();
 // Fetch all books
 router.get("/", async (req, res) => {
     try {
-        console.log('aagaya book tak');
         const books = await Book.find();
-        console.log("book fetched",books);
+        console.log(books);
         res.json(books);
     } catch (error) {
         console.error(" Error fetching books:", error);

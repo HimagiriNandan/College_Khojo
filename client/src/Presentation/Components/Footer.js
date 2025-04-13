@@ -1,21 +1,33 @@
-import '../Styles/Footer.css';
+//React file imports
 import { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
+// css import
+import '../Styles/Footer.css';
 
 const Footer = () =>{
-    const [contact, setContact] = useState("");
     const user = useSelector(state => state.user.data);
-    const handleSubmit = (e) => {
-        const res = axios.post("https://khojo-college-server.vercel.app/auth/contactus",{
-            name : user.name,
-            email : user.email,
-            message : contact
-        })
-        console.log(contact);
-        setContact("");
-        alert("Message sent successfully");
+    const [contact, setContact] = useState("");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const res = await axios.post("https://khojo-college-server.vercel.app/auth/contactus",{
+                name : user.name,
+                email : user.email,
+                message : contact
+            })
+            setContact("");
+            if(res.status === 200){
+                alert("Message sent successfully");
+            }
+        }catch(err){
+            console.log("Error: " + err.message);
+            alert("Please write something in the message and submit")
+        }
+        
     }
     return (
         <footer>
@@ -37,21 +49,21 @@ const Footer = () =>{
                 <div className="footer-left">
                     <div className="footer-links">
                         <h1 className="footer-heading">Pages</h1>
-                        <a href="/home" className="footer-links">Home</a>
-                        <a href="/tests" className="footer-links">Exams</a>
-                        <a href="/materials" className="footer-links">Materials</a>
-                        <a href="/helpandfeedback" className="footer-links">Help</a>
-                        <a href="/#" className="footer-links">Contact Us</a>
+                        <Link to="/home" className="footer-links">Home</Link>
+                        <Link to="/tests" className="footer-links">Exams</Link>
+                        <Link to="/materials" className="footer-links">Materials</Link>
+                        <Link to="/helpandfeedback" className="footer-links">Help</Link>
+                        <Link to="/#" className="footer-links">Contact Us</Link>
                     </div>
                 </div>
                 <div id="footer-mob" className="footer-left">
                     <div className="footer-links">
                         <h1 className="footer-heading">Quick Links</h1>
-                        <a href="/home" className="footer-links">About Us</a>
-                        <a href="/profile" className="footer-links">Profile</a>
-                        <a href="/#" className="footer-links">After +2</a>
-                        <a href="/#" className="footer-links">Hero</a>
-                        <a href="/#" className="footer-links">Colleges</a>
+                        <Link to="/home" className="footer-links">About Us</Link>
+                        <Link to="/profile" className="footer-links">Profile</Link>
+                        <Link to="/#" className="footer-links">After 12th</Link>
+                        <Link to="/#" className="footer-links">Hero</Link>
+                        <Link to="/#" className="footer-links">Colleges</Link>
                     </div>
                 </div>
                 <div className="footer-left">
