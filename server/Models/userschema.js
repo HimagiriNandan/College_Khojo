@@ -1,4 +1,3 @@
-const { Users } = require('lucide-react');
 const mongoose = require('mongoose');
 
 
