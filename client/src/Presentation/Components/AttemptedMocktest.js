@@ -1,20 +1,24 @@
 //React file imports
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+// slice imports
+import { setQuestionindex, setSubindex } from "../../Application/StateManagement/slices/MocktestSlice";
 
 // css import
 import "../Styles/AvailableMocktests.css";
-import { setQuestionindex, setSubindex } from "../../Application/StateManagement/slices/MocktestSlice";
 
 const AttemptedMocktests = () => {
   const navigate = useNavigate();
-  const id_data = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
-  const data  = useSelector((state) => state.user.data.attempted_mocks);
+
   const [tests, setTests] = useState([]);
+  const data  = useSelector((state) => state.user.data.attempted_mocks);
 
   async function showAnalysis(index) {
+    dispatch(setQuestionindex({ questionIndex: 0 }));
+    dispatch(setSubindex({ subIndex: 0 }));
     navigate(`/analysis/${index}`);
   }
 
@@ -29,12 +33,6 @@ const AttemptedMocktests = () => {
     }
     fetchData();
   }, []);
-  async function showAnalysis(index) {
-    dispatch(setQuestionindex({ questionIndex: 0 }));
-    dispatch(setSubindex({ subIndex: 0 }));
-    console.log("hi 5");
-    navigate(`/analysis/${index}`);
-  }
 
   return (
     <div className="mocktestmaincontainer">
