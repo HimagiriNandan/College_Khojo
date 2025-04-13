@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 
 // Slice Imports
@@ -11,6 +10,9 @@ import Loading from "./Loading";
 
 // Styles Imports
 import "../Styles/style.css";
+
+// Api Routes
+import { fetchUserData, userLogin } from "../../Application/Services/api";
 
 // Main Component
 export default function SignIn() {
@@ -30,13 +32,10 @@ export default function SignIn() {
         setIsLoading(true);
 
         try {
-            const response = await axios.post("https://khojo-college-server.vercel.app/auth/login", {
-                email,
-                password
-            }, { headers: { "Content-Type": "application/json" }, withCredentials: true });
+            const response = await userLogin({email, password});
 
             if (response.status === 200) {
-                const respo = await axios.get("https://khojo-college-server.vercel.app/auth/profile", { withCredentials: true });
+                const respo = await fetchUserData();
                 console.log(respo);
                 dispatch(setUserData(respo.data.data));
                 dispatch(setUserId(respo.data.data._id));

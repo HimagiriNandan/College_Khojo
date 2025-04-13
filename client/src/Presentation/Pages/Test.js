@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import React from "react";
 
 // Components and Slices Imports
@@ -13,6 +12,9 @@ import { setUserData, setUserId } from "../../Application/StateManagement/slices
 
 // Style Imports
 import "../Styles/Test.css"
+
+// Api Routes Imports
+import { fetchUserData, saveMockTest, submitTest } from "../../Application/Services/api";
 
 
 // Sidebar Component
@@ -115,12 +117,12 @@ const Test = () => {
   async function fetchData() {
     try {
       setIsloading(true);
-      await axios.post('https://khojo-college-server.vercel.app/mock/addMocktoUser', {
+      await saveMockTest({
         userId: user_id,
         data: testData,
         timer: time,
         change: "modify",
-      });
+      })
       navigate("/tests");
     } catch (err) {
       console.log(err);
@@ -132,8 +134,8 @@ const Test = () => {
   async function onTestEnd() {
     try {
       setIsloading(true);
-      const res = await axios.post('https://khojo-college-server.vercel.app/mock/addAttemptedMocktoUser', { userId: user_id, data: testData });
-      const response = await axios.get("https://khojo-college-server.vercel.app/auth/profile", { withCredentials: true });
+      const res = await submitTest({ userId: user_id, data: testData });
+      const response = await fetchUserData();
       dispatch(setUserData(response.data.data));
       dispatch(setUserId(response.data.data._id));
       if (res.status === 200) {

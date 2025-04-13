@@ -11,6 +11,9 @@ import Loading from "./Loading";
 // Styles Imports
 import "../Styles/PrivateUniversity.css";
 
+// Api Routes Imports
+import { fetchPrivateUniversities } from '../../Application/Services/api';
+
 
 // Main Component
 const PrivateUniversity = () => {
@@ -23,7 +26,7 @@ const PrivateUniversity = () => {
   useEffect(() => {
     async function fetchData() {
       setIsloading(true);
-      const response = await fetch('https://khojo-college-server.vercel.app/auth/privateuniversities');
+      const response = await fetchPrivateUniversities();
       const collegedata = await response.json();
       if (!data) {
         console.log("Data not found");

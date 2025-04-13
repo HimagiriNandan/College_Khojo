@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 // Slices Imports
 import { setMockTestData } from "../../Application/StateManagement/slices/MocktestSlice";
@@ -14,6 +13,9 @@ import Loading from "./Loading";
 
 // Styles Imports
 import "../Styles/InstructionPage.css";
+
+// Api Routes Imports
+import { fetchMockTest, saveMockTest } from "../../Application/Services/api";
 
 
 // Main Component
@@ -32,7 +34,7 @@ const InstructionPage = () => {
   async function onStart() {
     try {
       setIsloading(true);
-      const res = await axios.post("https://khojo-college-server.vercel.app/mock/addMocktoUser", {
+      const res = await saveMockTest({
         userId: user_id,
         data: testData,
       });
@@ -55,8 +57,7 @@ const InstructionPage = () => {
     async function fetchData() {
       try {
         setIsloading(true);
-        const response = await axios.post(
-          `https://khojo-college-server.vercel.app/mock/mocktestdata`,
+        const response = await fetchMockTest(
           { id: id }
         );
         const data = await response.data;

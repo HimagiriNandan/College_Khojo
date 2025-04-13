@@ -29,7 +29,7 @@ connectToDatabase()
   .then(() => {
     console.log("MongoDB Connected. Now starting server...");
     app.listen(8000, () => {
-      console.log("Server is running on https://khojo-college-server.vercel.app");
+      console.log("Server is running on http://localhost:8000");
     });
   })
   .catch((error) => {

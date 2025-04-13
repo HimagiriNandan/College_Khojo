@@ -3,7 +3,8 @@ import axios from "axios";
 
 
 export const fetchBooks = createAsyncThunk("books/fetchBooks", async () => {
-    const response = await axios.get("https://khojo-college-server.vercel.app/material"); 
+    const response = await axios.get("http://localhost:8000/material"); 
+    console.log(response.data);
     return response.data || [];
 });
 
@@ -17,6 +18,10 @@ const bookSlice = createSlice({
     name: "books",
     initialState,
     reducers: {
+        setBooks: (state, action) => {
+            state.books = action.payload;
+            state.status = "succeeded";
+        },
         clearBooks(state) {
             state.books = [];
             state.status = "idle";
@@ -39,5 +44,5 @@ const bookSlice = createSlice({
     }
 });
 
-export const { clearBooks } = bookSlice.actions;
+export const { clearBooks ,setBooks} = bookSlice.actions;
 export default bookSlice.reducer;

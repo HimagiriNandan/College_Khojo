@@ -1,13 +1,15 @@
 //React file imports
 import { useState } from "react";
 import { MdCancel } from "react-icons/md";
-import axios from "axios";
 
 // component imports
 import Loading from "../Pages/Loading";
 
 //css imports
 import "../Styles/OTPModal.css"; 
+
+//api imports
+import { verifyOTP } from "../../Application/Services/api";
 
 const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }) => {
   const [otp, setOtp] = useState(["", "", "", "","",""]);
@@ -38,10 +40,8 @@ const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }
     setIsloading(true);
 
     try {
-      const response = await axios.post(
-        "https://khojo-college-server.vercel.app/auth/verifyotp",
+      const response = await verifyOTP(
         { email, otp: otpString },
-        { withCredentials: true }
       );
 
       if (response.data.message === "OTP verified successfully. Account created.") {

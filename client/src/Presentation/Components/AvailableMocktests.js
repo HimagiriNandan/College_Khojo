@@ -1,6 +1,5 @@
 //React file imports
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 
 //component imports
@@ -12,6 +11,9 @@ import { startTime, } from "../../Application/StateManagement/slices/TimerSlice"
 
 // css import
 import "../Styles/AvailableMocktests.css";
+
+// api imports
+import { fetchMockTests } from "../../Application/Services/api";
 
 const AvailableMocktests = () => {
 
@@ -44,7 +46,7 @@ const AvailableMocktests = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.post("https://khojo-college-server.vercel.app/mock/mocktests");
+        const response = await fetchMockTests();
         const data = await response.data;
         setTests(data.data || []); 
         setIsloading(false);

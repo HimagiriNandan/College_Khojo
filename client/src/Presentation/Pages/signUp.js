@@ -2,13 +2,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import axios from "axios";
 
 // Components Imports
 import OTPModalSignUp from "../Components/OTPModal";
 
 // Styles Imports
 import "../Styles/style1.css";
+
+// Api Routes Imports
+import { userSignup } from "../../Application/Services/api";
 
 
 // Main Component
@@ -35,13 +37,12 @@ export default function SignUp() {
     async function handleSubmit(event) {
         event.preventDefault();
         try {
-            const response = await axios.post("https://khojo-college-server.vercel.app/auth/signup", {
+            const response = await userSignup({
                 name: fullName,
                 email,
                 location,
                 password
-            }, { withCredentials: true });
-
+            });
             if (response.data.message === "User registered successfully. Please verify OTP.") {
                 setError("");
                 setSuccess(response.data.message);
