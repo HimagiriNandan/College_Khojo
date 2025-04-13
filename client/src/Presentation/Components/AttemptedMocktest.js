@@ -5,9 +5,12 @@ import { useSelector } from "react-redux";
 
 // css import
 import "../Styles/AvailableMocktests.css";
+import { setQuestionindex, setSubindex } from "../../Application/StateManagement/slices/MocktestSlice";
 
 const AttemptedMocktests = () => {
   const navigate = useNavigate();
+  const id_data = useSelector((state) => state.user.id);
+  const dispatch = useDispatch();
   const data  = useSelector((state) => state.user.data.attempted_mocks);
   const [tests, setTests] = useState([]);
 
@@ -26,6 +29,12 @@ const AttemptedMocktests = () => {
     }
     fetchData();
   }, []);
+  async function showAnalysis(index) {
+    dispatch(setQuestionindex({ questionIndex: 0 }));
+    dispatch(setSubindex({ subIndex: 0 }));
+    console.log("hi 5");
+    navigate(`/analysis/${index}`);
+  }
 
   return (
     <div className="mocktestmaincontainer">
