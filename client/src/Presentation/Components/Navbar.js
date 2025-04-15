@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LiaUniversitySolid } from "react-icons/lia";
 import { MdCancel } from "react-icons/md";
-import axios from "axios";
 
 // components import
 import Loading from '../Pages/Loading';
@@ -26,6 +25,9 @@ import materials from '../Assests/navbar-icons/materials.svg';
 // css import
 import '../Styles/Navbar.css';
 
+// api import
+import { userLogout } from '../../Application/Services/api';
+
 const Navbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -40,7 +42,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             setLoading(true);
-            const res = await axios.post("https://khojo-college-server.vercel.app/auth/logout", {}, { withCredentials: true });
+            const res = await userLogout();
             Cookies.remove('token');
             Cookies.remove('access-token');
             if(res.status === 200){

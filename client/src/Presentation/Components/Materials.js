@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 //components import
 import Loading from "../Pages/Loading";
 
-//slices import
-import { fetchBooks } from "../../Application/StateManagement/slices/BookSlice";
+// slicers import
+import { setBooks } from "../../Application/StateManagement/slices/BookSlice";
 
 // css import
 import "../Styles/Materials.css";
+
+//api import
+import { fetchBooksData } from "../../Application/Services/api";
 
 //Materials Component
 const Materials = () => {
@@ -26,7 +29,13 @@ const Materials = () => {
   }, {});
 
   useEffect(() => {
-    dispatch(fetchBooks()); // Fetch books when the component loads
+    const fetchData = async () => {
+      // const response2 = await fetchBooks();
+      const response = await fetchBooksData();
+      const bookdata = await response.data;
+      dispatch(setBooks(bookdata||[])); // Fetch books when the component loads
+    }
+    fetchData();
   }, [dispatch]);
 
   return (

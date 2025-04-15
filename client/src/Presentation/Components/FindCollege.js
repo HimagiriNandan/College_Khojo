@@ -1,12 +1,14 @@
 //React file imports
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 //component imports
 import Loading from '../Pages/Loading';
 
 // css import
 import '../Styles/FindCollege.css';
+
+//api imports
+import { filterColleges } from '../../Application/Services/api';
 
 const College = ({ key, college }) => {
     return (
@@ -48,7 +50,7 @@ const FindCollege = () => {
     const fetchColleges = async () => {
         try {
             setIsloading(true);
-            const response = await axios.post("https://khojo-college-server.vercel.app/auth/colleges", {
+            const response = await  filterColleges({
                 page: pagenumber,
                 marks: marksdata,
                 percentile: percentiledata,

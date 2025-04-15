@@ -32,6 +32,9 @@ import './App.css';
 import { ToastProvider } from './Application/Context';
 
 
+// Api Routes
+import { fetchUserData } from './Application/Services/api';
+
 // Auth Component
 const AuthRoute = ({ children }) => {
   const { data } = useSelector((state) => state.user);
@@ -52,7 +55,7 @@ function App() {
   // Functions
   const fetUserDetails = async () => {
     try {
-      const response = await axios.get("https://khojo-college-server.vercel.app/auth/profile", { withCredentials: true });
+      const response = await fetchUserData();
       if (!response.data.data) {
         navigate("/signin");
       }

@@ -1,7 +1,6 @@
 // React Imports
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 
 // Slices Imports
 import { setUserData } from '../../Application/StateManagement/slices/UserSlice';
@@ -14,6 +13,9 @@ import profileimg from '../Assests/profile.svg';
 
 // Styles Imports
 import '../Styles/Profile.css';
+
+// Api Routes Imports
+import { updateUser, updateUserProfile } from '../../Application/Services/api';
 
 
 // Main Component
@@ -49,11 +51,11 @@ const Profile = () => {
     const HandleChange =async () =>{
         try{
             setIsloading(true);
-            const response = await axios.post("https://khojo-college-server.vercel.app/auth/updateprofile", {
+            const response = await updateUser({
                 id: user._id,
                 name: name,
                 location: location
-            });
+            })
             if (response.data.error === false) {
                 dispatch(setUserData(response.data.data));
                 window.location.reload();
@@ -72,7 +74,7 @@ const Profile = () => {
             data.append("profilepic", profileimage);
             data.append("id", user._id);
 
-            const response = await axios.post("https://khojo-college-server.vercel.app/auth/updateuserprofile", data);
+            const response = await updateUserProfile(data);
             if (response.data.error === false) {
                 dispatch(setUserData(response.data.data));
                 window.location.reload();

@@ -1,11 +1,13 @@
 //React file imports
 import { useState } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // css import
 import '../Styles/Footer.css';
+
+// api imports
+import { contactUs } from '../../Application/Services/api';
 
 const Footer = () =>{
     const user = useSelector(state => state.user.data);
@@ -14,7 +16,7 @@ const Footer = () =>{
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            const res = await axios.post("https://khojo-college-server.vercel.app/auth/contactus",{
+            const res = await contactUs({
                 name : user.name,
                 email : user.email,
                 message : contact

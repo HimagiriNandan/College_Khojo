@@ -10,6 +10,7 @@ import { ToastContext } from "../../Application/Context";
 
 // css import
 import "../Styles/feedbackModal.css";
+import { giveFeedback } from "../../Application/Services/api";
 
 
 const FeedbackModal = ({showModal}) => {
@@ -27,7 +28,7 @@ const FeedbackModal = ({showModal}) => {
     e.preventDefault();
     try{
       setIsloading(true);
-      const res = await axios.post("https://khojo-college-server.vercel.app/auth/feedback", {
+      const res = await giveFeedback({
         name: username,
         email: email,
         message: description,
