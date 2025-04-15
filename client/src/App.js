@@ -29,7 +29,7 @@ import Loading from './Presentation/Pages/Loading';
 
 // Styles Imports
 import './App.css';
-import Toast from './Presentation/Components/Toast';
+import { ToastProvider } from './Application/Context';
 
 
 // Api Routes
@@ -110,7 +110,9 @@ function AppWrapper() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <App />
+          <ToastProvider>
+            <App/>
+          </ToastProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>

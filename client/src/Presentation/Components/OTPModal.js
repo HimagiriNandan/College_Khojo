@@ -1,5 +1,5 @@
 //React file imports
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { MdCancel } from "react-icons/md";
 
 // component imports
@@ -7,13 +7,18 @@ import Loading from "../Pages/Loading";
 
 //css imports
 import "../Styles/OTPModal.css"; 
+import { ToastContext } from "../../Application/Context";
+
 
 //api imports
 import { verifyOTP } from "../../Application/Services/api";
 
-const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }) => {
+const OTPModalSignUp = ({ email, setIsModalOpen, navigate, showModal }) => {
+
   const [otp, setOtp] = useState(["", "", "", "","",""]);
   const [isloading, setIsloading] = useState(false);
+
+  const {onToast} = useContext(ToastContext);
 
   
   const handleOtpChange = (e, index) => {
@@ -46,15 +51,16 @@ const OTPModalSignUp = ({ email, setIsModalOpen, navigate, setError, showModal }
 
       if (response.data.message === "OTP verified successfully. Account created.") {
         setIsModalOpen(false);
+        onToast({msg: 'OTP verified Successfully!!!', type: 'success'});
         setTimeout(() => navigate("/signin"), 1500); 
 
       } else {
-        setError("Invalid OTP");
+        onToast({msg: 'please enter valid OTP', type: 'warning'});
       }
     } catch (err) {
-      setError(err.response?.data?.message || "OTP verification failed");
+        onToast({msg: err.response?.data?.message || "OTP verification failed", type: 'error'});
     } finally{
-      setIsloading(false);
+        setIsloading(false);
     }
   };
 

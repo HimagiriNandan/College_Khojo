@@ -1,11 +1,12 @@
 //React file imports
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { MdCancel } from "react-icons/md";
 
 //component imports
 import Loading from "../Pages/Loading";
+import { ToastContext } from "../../Application/Context";
 
 // css import
 import "../Styles/feedbackModal.css";
@@ -20,6 +21,8 @@ const FeedbackModal = ({showModal}) => {
   const [stat, setStat] = useState(false);
   const [rating, setRating] = useState(0);
 
+  const { onToast } = useContext(ToastContext);
+
 
   async function submitFeedback(e){
     e.preventDefault();
@@ -32,12 +35,13 @@ const FeedbackModal = ({showModal}) => {
         rating: rating
       });
       if(res.status === 200){
+        onToast({msg: 'Feedback Successfully Submitted', type: 'success'});
         setStat(true);
       }else{
         setStat(false);
       }
     }catch(err){
-      console.log(err);
+      onToast({msg: 'Unable to Submit the feedback at the moment', type: 'error'});
     }finally{
       setIsloading(false);
     }

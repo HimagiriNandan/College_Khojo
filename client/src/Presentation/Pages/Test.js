@@ -1,5 +1,5 @@
 // React Imports
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React from "react";
@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import { decrementTime, autoSubmit, startTime } from "../../Application/StateManagement/slices/TimerSlice";
 import { selectOption, clearOption, setQuestionindex, setSubindex, resetTestData } from "../../Application/StateManagement/slices/MocktestSlice";
 import { setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
+import { ToastContext } from "../../Application/Context";
 
 // Style Imports
 import "../Styles/Test.css"
@@ -75,6 +76,7 @@ const Options = ({ data, ghost, setGhost, subIndex, questionIndex, selectedoptio
 
 
 // Main Component
+
 const Test = () => {
   // States and Variables
   const data = useSelector((state) => state.mocktest.data);
@@ -96,6 +98,31 @@ const Test = () => {
   const time = useSelector((state) => state.timer.time);
   const testSubmitted = useSelector((state) => state.timer.testSubmitted);
 
+  const { onToast } = useContext(ToastContext);
+
+
+  const formatTime = (seconds) => { // gives format as HH:MM:SS
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  }
+  useEffect(() => {
+    setSubject(data.sections[subIndex].name);
+  },[subIndex]);
+  
+  useEffect(() => {
+    if(testSubmitted) return;
+    if(time <= 0){
+      dispatch(autoSubmit());
+      return;
+    }
+    const timer = setInterval(() => {
+      dispatch(decrementTime());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [testSubmitted, time, dispatch]);
+
   // Functions
   function onPrevious() {
     if (questionIndex > 0) {
@@ -114,24 +141,32 @@ const Test = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+
   async function fetchData() {
     try {
       setIsloading(true);
+
       await saveMockTest({
         userId: user_id,
         data: testData,
         timer: time,
         change: "modify",
-      })
+
+      });
+
+      if(res.status === 200){
+        onToast({msg: 'Test Paused Successfully!!!', type: 'success'});
+      }
+
       navigate("/tests");
     } catch (err) {
-      console.log(err);
+      onToast({msg: 'Error Resuming the test', type: 'error'});
     } finally {
       setIsloading(false);
     }
   }
 
-  async function onTestEnd() {
+  async function onTestEnd(istabSwitched) {
     try {
       setIsloading(true);
       const res = await submitTest({ userId: user_id, data: testData });
@@ -142,11 +177,14 @@ const Test = () => {
         setSubIndex(0);
         setQuestionIndex(0);
         navigate("/tests");
+        if(!istabSwitched){
+          onToast({msg: 'Test Submitted Successfully...', type: 'success'});
+        }
       }
       resetTestData();
-    } catch (err) {
-      console.log(err);
-    } finally {
+    }catch(err){
+      onToast({ msg: 'Unable to submit the test', type: 'error'});
+    }finally{
       setIsloading(false);
     }
   }
@@ -157,42 +195,34 @@ const Test = () => {
     setIsloading(true);
   }
 
-  const formatTime = (seconds) => { // gives format as HH:MM:SS
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-  }
-
-  // UseEffects 
+  
 
   useEffect(() => {
-    dispatch(startTime());
-  }, []);
+    let switchCount = 0;
+  
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        switchCount += 1;
+  
+        if (switchCount === 1) {
+          onToast({ msg: "First warning: Don't switch tabs!", type: "warning" });
+        } else if (switchCount === 2) {
+          onToast({ msg: "Second warning: One more and the test will be submitted!", type: "warning" });
+        } else if (switchCount >= 3) {
+          onToast({ msg: "Test submitted due to tab switching!", type: "error" });
+          onTestEnd(true);
+        }
+      }
+    };
+  
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [onToast]);
+  
 
-  useEffect(() => {
-    setSubject(data.sections[subIndex].name);
-  }, [subIndex]);
-
-  useEffect(() => {
-
-    if (testSubmitted) return;
-    if (time <= 0) {
-      dispatch(autoSubmit());
-      return;
-    }
-    const timer = setInterval(() => {
-      dispatch(decrementTime());
-    }, 1000);
-    return () => clearInterval(timer);
-
-  }, [testSubmitted, time, dispatch]);
-
-
-
-
-
-  // Rendered Componenet
   return (
     <React.Fragment>
       {isloading ? <Loading /> : null}
@@ -230,7 +260,7 @@ const Test = () => {
               <button className="herobutton" id="test-nav-btn" onClick={fetchData}>Pause test</button>
             </div>
             <div className="submit-container">
-              <button className="herobutton" id="submit-nav-btn" onClick={() => { onTestEnd() }}>Submit</button>
+            <button className="herobutton" id="submit-nav-btn" onClick={() => {onTestEnd(false)}}>Submit</button>
             </div>
           </div>
 
