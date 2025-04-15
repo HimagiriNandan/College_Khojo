@@ -121,7 +121,7 @@ router.post("/signup", async (req, res) => {
     await newTempUser.save();
 
     // Send OTP email
-    sendEmail(email, otp);
+    await sendEmail(email, otp);
 
     // Respond to the client
     res.status(201).json({ message: "User registered successfully. Please verify OTP." });

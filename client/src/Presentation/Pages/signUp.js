@@ -1,19 +1,30 @@
-import { useContext, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; 
-import axios from "axios";
+// React Imports
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Styles/style1.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useContext, useState } from "react";
+
+import axios from "axios";
+
+// Components Imports
 import OTPModalSignUp from "../Components/OTPModal";
+
+// Styles Imports
+import "../Styles/style1.css";
 import { ToastContext } from "../../Application/Context";
 
 
+// Main Component
 export default function SignUp() {
+    // States and Variables
     const [email, setEmail] = useState('');
     const [fullName, setFullName] = useState('');
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setconfirmPassWord] = useState('');
+
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
     
@@ -22,6 +33,8 @@ export default function SignUp() {
 
     const navigate = useNavigate();
 
+
+    // Functions
     async function handleSubmit(event) {
         event.preventDefault();
         try {
@@ -55,21 +68,21 @@ export default function SignUp() {
             />}
 
             <div className="signUp-container">
-                {/* Left Side - Sign Un Form */}
 
                 <div className="sign-up-content">
 
                     <h1>Welcome!</h1>
+
                     <p className="sign-up-subheading">create a free account</p>
 
                     <form onSubmit={handleSubmit} className="sign-up-form">
+
                         <label>Email Address</label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-
 
                         <label>Full Name</label>
                         <input
@@ -124,45 +137,45 @@ export default function SignUp() {
 
                         <label>Password</label>
                         <div className="sign-up-password-field">
-                        <input 
-                            type={hidePassword ? "password" : "text"} 
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                            title="Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
-                            required
-                        />
-                        <span 
-                            className="sign-up-eye-icon"
-                            onClick={() => setHidePassword(!hidePassword)}
-                        >   
-                            {hidePassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
+                            <input
+                                type={hidePassword ? "password" : "text"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                title="Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
+                                required
+                            />
+                            <span
+                                className="sign-up-eye-icon"
+                                onClick={() => setHidePassword(!hidePassword)}
+                            >
+                                {hidePassword ? <FaEyeSlash /> : <FaEye />}
+                            </span>
                         </div>
-                       
+
                         <label>Confirm Password</label>
 
                         <div className="sign-up-password-field">
-                        <input 
-                            type={hideConfirmPassword ? "password" : "text"} 
-                            value={confirmPassword}
-                            onChange={(e) => setconfirmPassWord(e.target.value)}
+                            <input
+                                type={hideConfirmPassword ? "password" : "text"}
+                                value={confirmPassword}
+                                onChange={(e) => setconfirmPassWord(e.target.value)}
 
-                            onBlur={(e) => {
-                                if (e.target.value !== password) {
-                                    e.target.setCustomValidity("Passwords do not match!");
-                                } else {
-                                    e.target.setCustomValidity("");
-                                }
-                            }}
-                            required
-                        />
-                        <span 
-                            className="sign-up-eye-icon"
-                            onClick={() => setHideConfirmPassword(!hideConfirmPassword)}
-                        >   
-                            {hideConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
+                                onBlur={(e) => {
+                                    if (e.target.value !== password) {
+                                        e.target.setCustomValidity("Passwords do not match!");
+                                    } else {
+                                        e.target.setCustomValidity("");
+                                    }
+                                }}
+                                required
+                            />
+                            <span
+                                className="sign-up-eye-icon"
+                                onClick={() => setHideConfirmPassword(!hideConfirmPassword)}
+                            >
+                                {hideConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                            </span>
                         </div>
 
                         <button type="submit" className="sign-up-btn">Sign Up</button>
@@ -172,7 +185,6 @@ export default function SignUp() {
                 </div>
 
 
-                {/* Right Side - Image */}
                 <div className="sign-up-image">
                     <img src="https://res.cloudinary.com/duyuxtpau/image/upload/v1739688085/a0lw8uv3cny5efun3ksq.webp" alt="Educational theme" />
                 </div>

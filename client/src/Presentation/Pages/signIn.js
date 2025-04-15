@@ -1,14 +1,22 @@
+// React Imports
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import "../Styles/style.css";
-import { useSelector, useDispatch } from "react-redux";
-import { setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
+import { useDispatch } from "react-redux";
+
+// Slice Imports
+import {setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
+
 import Loading from "./Loading";
+
 import { ToastContext } from "../../Application/Context";
 
+// styles import
+import "../Styles/style.css"; 
+
 export default function SignIn() {
+    // States and Variables
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [hidePassword, setHidePassword] = useState(true);
@@ -18,14 +26,18 @@ export default function SignIn() {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    // Functions
     async function handleSubmit(event) {
         event.preventDefault();
         setIsLoading(true);
+
         try {
             const response = await axios.post("https://khojo-college-server.vercel.app/auth/login", {
                 email,
                 password
             }, { headers: { "Content-Type": "application/json" }, withCredentials: true });
+
             if (response.status === 200) {
                 const respo = await axios.get("https://khojo-college-server.vercel.app/auth/profile", { withCredentials: true });
                 onToast({msg: 'Login Successfull!!!', type: 'success'});
@@ -42,11 +54,15 @@ export default function SignIn() {
     }
 
 
+    // Rendered Component
     return (
         <div className="container">
+
             {isLoading && <Loading />}
             <div className="sign-in-content">
+
                 <h1>Welcome!</h1>
+
                 <div className="div-para">
                     <p className="subheading">Login to your account</p>
                 </div>
@@ -58,7 +74,6 @@ export default function SignIn() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        // placeholder="Enter your email"
                         required
                     />
 
@@ -86,7 +101,6 @@ export default function SignIn() {
                 </form>
             </div>
 
-            {/* Right Side - Image */}
             <div className="sign-in-image">
                 <img src="https://res.cloudinary.com/duyuxtpau/image/upload/v1739688085/eyvitigtz2x8nphsj6i6.webp" alt="Educational theme" />
             </div>

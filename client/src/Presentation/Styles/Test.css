@@ -1,5 +1,5 @@
 .testPage{
-  height: 100%;
+  height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -8,23 +8,23 @@
   position: relative;
 }
 .test-sidebar{
-  height: 100%;
-  padding: 20px;
-  width: 260px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap:wrap;
+  /* height: 100%; */
+  padding: 30px;
+  /* width: 260px; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* flex-direction: row; */
+  /* flex-wrap:wrap; */
   gap: 18px;
 }
 .test-header{
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   justify-content: center;
-  gap: 30px;
-  padding: 30px;
+  /* gap: 30px; */
+  /* padding: 30px; */
   padding-top: 0px;
-  background-color: #ffffff;
-  padding-left: 350px;
+  padding-bottom: 10px;
 }
 .test-header h1{
   color: #05B97D;
@@ -37,7 +37,6 @@
   display: flex;
   justify-content: center;
   gap: 60px;
-  padding-left: 350px;
   padding-bottom: 20px;
   /* position: fixed; */
 }
@@ -58,17 +57,19 @@
   flex-direction: column;
   padding: 20px;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #F4F4F4;
 }
 .test-body{
   display:flex;
   flex-direction: column;
-  width: 100%;
+  /* width: 100%; */
+  border-radius: 8px;
   gap: 30px;
   padding: 30px;
-  padding-left: 400px;
+  background-color: #ffffff;
+  /* margin-left: 360px; */
   padding-top: 50px;
-  height: 76vh;
+  height: 82vh;
   overflow-y: auto;
   scrollbar-width: none;
   /* padding-top: 150px; */
@@ -107,11 +108,17 @@
 }
 #test-nav-btn1{
   border-radius: 7px;
-  width: 50px;
+  /* width: 50px; */
+  
+  padding:9px 7px;
+  margin:0px;
 }
 .test-disabled{
-  background-color: #ffffff;
-  color: #05B97D;
+  /* background-color: #ffffff; */
+  /* color: #05B97D; */
+  background-color: transparent;
+  font-weight: 500;
+  color:rgb(1, 39, 31);
 }
 .test-opt-enabled{
   box-shadow: 0 5px 10px rgba(5, 185, 125, 0.5);
@@ -123,18 +130,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  height: 100vh;
-  width: 350px;
-  position: fixed;
-  left : 0;
+  border-radius: 8px;
+  margin-left:15px;
+  /* padding: 20px; */
+  /* height: 100vh; */
+  /* width: 350px; */
+  /* position: fixed; */
   z-index: 1000;
-  top: 0;
-  background-color: #f4f4f4;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  background-color: white;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); */
   
 }
 #test-buttons{
+  gap:30px;
   display: flex;
   justify-content: flex-end;
 }
@@ -169,7 +177,7 @@
 .not-hero-btn{
   background-color: #ffffff;
   color: #05B97D;
-  border: 1px solid #05B97D;
+  border: 0.5px solid #90ffda;
   border-radius: 7px;
   padding: 10px 20px;
   font-size: 18px;
@@ -189,6 +197,10 @@
   box-shadow: 0px 0px 10px #05B97D;
 }
 
+.toggle-sidebar-btn{
+  display:none;
+}
+
 
 @media (max-width: 768px) {
   .answered_btn2{
@@ -197,14 +209,20 @@
     border: none;
     border-radius: 7px;
     padding: 10px 20px;
+    font-size: 18px;
 
+  }
+  #test-nav-btn1{
+    padding: 11px 8px;
+    margin: 0px;
+    font-size: 23px;
   }
   .active-btn2{
     background-color: orange;
     color: #ffffff;
     border: none;
     border-radius: 7px;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
   }
   .test-question-image{
     width: 100%;
@@ -218,8 +236,8 @@
     width: 100%;
   }
   .test-body{
-    padding-left: 0px;
-    padding-right: 0px;
+    margin-left: 0px;
+    /* padding-right: 0px; */
     width: 100%;
     position: relative;
   }
@@ -231,9 +249,16 @@
     gap: 20px;
   }
   .test-sidebar{
-    display: none;
+    /* display: none; */
+    /* gap:10px; */
+    /* width:100%; */
   }
   .test-sidebar2{
+    position: fixed;
+    top: 0;
+    right:0;
+    /* left: 0; */
+    width:100%;
     display: none;
     background-color: #ffffff;
     transition: all 0.5s;
@@ -248,6 +273,7 @@
     transition: all 0.5s; 
   }
   .toggle-sidebar-btn {
+    display:block;
     position: fixed;
     top: 20px;
     left: 30px;
@@ -264,14 +290,6 @@
     justify-content: center;
   }
   .test-sidebartoopen{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 5% 18% 30% 18%;
-    width: 350px;
-    position: relative;
     left : 0;
     z-index: 1000;
     top: 0;
