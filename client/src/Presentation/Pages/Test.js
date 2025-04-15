@@ -146,7 +146,7 @@ const Test = () => {
     try {
       setIsloading(true);
 
-      await saveMockTest({
+      const res = await saveMockTest({
         userId: user_id,
         data: testData,
         timer: time,

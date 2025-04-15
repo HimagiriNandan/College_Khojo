@@ -27,7 +27,7 @@ const PrivateUniversity = () => {
     async function fetchData() {
       setIsloading(true);
       const response = await fetchPrivateUniversities();
-      const collegedata = await response.json();
+      const collegedata = response.data;
       if (!data) {
         console.log("Data not found");
       }
