@@ -1,11 +1,11 @@
 //React file imports
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 // slices import
 import { startTime, resetTime } from "../../Application/StateManagement/slices/TimerSlice";
+import { ToastContext } from "../../Application/Context";
 
 //css imports
 import "../Styles/AvailableMocktests.css";
@@ -17,6 +17,8 @@ const ResumeTests = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.user.data.attempting_mocks);
   const [tests, setTests] = useState([]);
+
+  const {onToast} = useContext(ToastContext);
 
   const startTest = (id) => {
     dispatch(startTime(id));
@@ -30,10 +32,13 @@ const ResumeTests = () => {
       try {
         setTests(data);
       } catch (error) {
-        console.error("Error fetching mock tests:", error);
+        onToast({msg: 'Server is not responding', type: 'error'});
       }
     }
     fetchData();
+    if(data.length > 0){
+      onToast({msg: "👋 Don't forget to complete your test!", type: 'warning'});
+    }
   }, []);
 
   return (

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Styles/style1.css";
 import OTPModalSignUp from "../Components/OTPModal";
+import { ToastContext } from "../../Application/Context";
 
 
 export default function SignUp() {
@@ -12,11 +13,11 @@ export default function SignUp() {
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setconfirmPassWord] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
+    
+    const { onToast } = useContext(ToastContext);
 
 
     const navigate = useNavigate();
@@ -32,17 +33,15 @@ export default function SignUp() {
             }, { withCredentials: true });
 
             if (response.data.message === "User registered successfully. Please verify OTP.") {
-                setError("");
-                setSuccess(response.data.message);
+                onToast({msg : response.data.message, type: 'success'});
                 setIsModalOpen(true);
             }
             else {
-                setError(response.data.message);
+                let msg = response.data.message;
+                onToast({ msg, type: 'warning'});
             }
-
-
         } catch (err) {
-            setError(err.response?.data?.message || "Signup failed");
+            onToast({msg: err.response?.data?.message || "Signup Failed", type: 'error'});
         }
     }
 
@@ -52,7 +51,6 @@ export default function SignUp() {
                 email={email}
                 setIsModalOpen={setIsModalOpen}
                 navigate={navigate}
-                setError={setError}
                 showModal={setIsModalOpen}
             />}
 
@@ -63,9 +61,6 @@ export default function SignUp() {
 
                     <h1>Welcome!</h1>
                     <p className="sign-up-subheading">create a free account</p>
-
-                    {error && <p style={{color:"red", fontWeight:600}}>{error}!</p>}
-                    {success && <p style={{color:"#05B79D", fontWeight:600}}>{success}</p>}
 
                     <form onSubmit={handleSubmit} className="sign-up-form">
                         <label>Email Address</label>
@@ -169,21 +164,6 @@ export default function SignUp() {
                             {hideConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
                         </div>
-                        {/* <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setconfirmPassWord(e.target.value)}
-
-                            onBlur={(e) => {
-                                if (e.target.value !== password) {
-                                    e.target.setCustomValidity("Passwords do not match!");
-                                } else {
-                                    e.target.setCustomValidity("");
-                                }
-                            }}
-                            required
-                        /> */}
-
 
                         <button type="submit" className="sign-up-btn">Sign Up</button>
 

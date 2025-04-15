@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import "../Styles/Test.css"
 import { useDispatch, useSelector } from "react-redux";
 import { decrementTime, autoSubmit, submitTest, startTime, setTime } from "../../Application/StateManagement/slices/TimerSlice";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import { setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
 import axios from "axios";
+import { ToastContext } from "../../Application/Context";
 const Test = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [data, setData] = useState(useSelector((state) => state.mocktest.data));
@@ -17,14 +18,14 @@ const Test = () => {
   const [selectedoption, setSelectedoption] = useState("");
 
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.timer.id);
   const user_id = useSelector((state) => state.user.id);
   const testData = useSelector((state) => state.mocktest.data);
   const time = useSelector((state) => state.timer.time);
-  const isRunning = useSelector((state) => state.timer.isRunning);
   const testSubmitted = useSelector((state) => state.timer.testSubmitted);
   const [isloading, setIsloading] = useState(false);
   const userid = useSelector((state) => state.user.id);
+
+  const { onToast } = useContext(ToastContext);
 
   const navigate = useNavigate();
 
@@ -53,25 +54,30 @@ const Test = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
   async function fetchData(){
     try{
       setIsloading(true);
-      await axios.post('https://khojo-college-server.vercel.app/mock/addMocktoUser', {
+      const res = await axios.post('https://khojo-college-server.vercel.app/mock/addMocktoUser', {
         userId: user_id,
         data: testData,
         timer: time,
         change: "modify",
       });
+      console.log(res);
+      if(res.status === 200){
+        onToast({msg: 'Test Paused Successfully!!!', type: 'success'});
+      }
       navigate("/tests");
     }catch(err){
-      console.log(err);
+      onToast({msg: 'Error Resuming the test', type: 'error'});
     }finally{
       setIsloading(false);
     }
   }
 
 
-  async function onTestEnd(){
+  async function onTestEnd(istabSwitched){
     try{
       setIsloading(true);
       const res = await axios.post('https://khojo-college-server.vercel.app/mock/addAttemptedMocktoUser', {userId : userid, data: testData});
@@ -82,11 +88,13 @@ const Test = () => {
         setSubIndex(0);
         setQuestionIndex(0);
         navigate("/tests");
-        console.log("Mock test submitted successfully");
+        if(!istabSwitched){
+          onToast({msg: 'Test Submitted Successfully...', type: 'success'});
+        }
       }
       resetTestData();
     }catch(err){
-      console.log(err);
+      onToast({ msg: 'Unable to submit the test', type: 'error'});
     }finally{
       setIsloading(false);
     }
@@ -114,6 +122,32 @@ const Test = () => {
       reloadfunc();
     }
   }
+
+  useEffect(() => {
+    let switchCount = 0;
+  
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        switchCount += 1;
+  
+        if (switchCount === 1) {
+          onToast({ msg: "First warning: Don't switch tabs!", type: "warning" });
+        } else if (switchCount === 2) {
+          onToast({ msg: "Second warning: One more and the test will be submitted!", type: "warning" });
+        } else if (switchCount >= 3) {
+          onToast({ msg: "Test submitted due to tab switching!", type: "error" });
+          onTestEnd(true);
+        }
+      }
+    };
+  
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [onToast]);
+  
 
   return (
     <>
@@ -190,7 +224,7 @@ const Test = () => {
               <button className="herobutton" id="test-nav-btn" onClick={fetchData}>Pause test</button>
             </div>
             <div className="submit-container">
-            <button className="herobutton" id="submit-nav-btn" onClick={() => {onTestEnd()}}>Submit</button>
+            <button className="herobutton" id="submit-nav-btn" onClick={() => {onTestEnd(false)}}>Submit</button>
             </div>
           </div>
               

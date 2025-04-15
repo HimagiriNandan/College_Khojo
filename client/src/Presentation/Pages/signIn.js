@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
@@ -6,13 +6,15 @@ import "../Styles/style.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
 import Loading from "./Loading";
+import { ToastContext } from "../../Application/Context";
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [hidePassword, setHidePassword] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+
+    const {onToast} = useContext(ToastContext);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -24,18 +26,18 @@ export default function SignIn() {
                 email,
                 password
             }, { headers: { "Content-Type": "application/json" }, withCredentials: true });
-            console.log(response);
             if (response.status === 200) {
                 const respo = await axios.get("https://khojo-college-server.vercel.app/auth/profile", { withCredentials: true });
-                console.log(respo);
+                onToast({msg: 'Login Successfull!!!', type: 'success'});
                 dispatch(setUserData(respo.data.data));
                 dispatch(setUserId(respo.data.data._id));
             }
-            // dispatch(setUserData(respo.data.user));
-            setIsLoading(false);
-            navigate("/home"); // Redirect after login
+            
+            navigate("/home"); 
         } catch (err) {
-            setError(err.response?.data?.message || "Invalid email or password");
+            onToast({msg: err.response?.data?.message || "Invalid email or password", type: 'error'});
+        } finally{
+            setIsLoading(false);
         }
     }
 
@@ -43,14 +45,12 @@ export default function SignIn() {
     return (
         <div className="container">
             {isLoading && <Loading />}
-            {/* Left Side - Sign In Form */}
             <div className="sign-in-content">
                 <h1>Welcome!</h1>
                 <div className="div-para">
                     <p className="subheading">Login to your account</p>
                 </div>
 
-                {error && <p style={{ color: "red", fontWeight: 600 }}>{error} !</p>}
 
                 <form onSubmit={handleSubmit} className="sign-in-form">
                     <label>Email Address</label>

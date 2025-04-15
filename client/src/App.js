@@ -26,7 +26,7 @@ import ForgetPassword from './Presentation/Pages/ForgetPassword';
 import Loading from './Presentation/Pages/Loading';
 import { useSelector } from 'react-redux';
 import Toast from './Presentation/Components/Toast';
-
+import { ToastProvider } from './Application/Context';
 
 
 const AuthRoute = ({children}) => {
@@ -100,7 +100,9 @@ function AppWrapper(){
     <Provider store = {store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <App/>
+          <ToastProvider>
+            <App/>
+          </ToastProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>
