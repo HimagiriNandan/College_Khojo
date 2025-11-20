@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true, 
-    origin: ["http://localhost:3000", "http://localhost:5000", "https://khojo-college.vercel.app"],
+    origin: ["http://3.109.1.151", "https://khojo-college.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
