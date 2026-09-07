@@ -4,7 +4,6 @@ import axios from "axios";
 
 export const fetchBooks = createAsyncThunk("books/fetchBooks", async () => {
     const response = await axios.get("http://localhost:8000/material"); 
-    console.log(response.data);
     return response.data || [];
 });
 

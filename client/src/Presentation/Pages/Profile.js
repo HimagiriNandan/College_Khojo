@@ -34,20 +34,6 @@ const Profile = () => {
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{
-
-        setIsloading(true);
-        const data = localStorage.getItem("user");
-
-        
-        console.log(data);
-        console.log(user);
-        setName(user.name);
-        setLocation(user.location);
-        setIsloading(false);
-
-    },[]);
-
     const HandleChange =async () =>{
         try{
             setIsloading(true);
@@ -99,7 +85,7 @@ const Profile = () => {
         catch (err) {
             console.log("Error");
         }
-    }, []);
+    }, [user.name, user.location]);
 
 
     // Rendered Component

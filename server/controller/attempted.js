@@ -8,7 +8,6 @@ const attempted = async(req,res)=>{
     if(!user){
         return res.status(404).json({error:true,message: "User not found"});
     }
-    console.log("crossed 1");
     res.status(200).json(user.attempted_mocks.map(mock => {
         return {
             _id: mock._id,

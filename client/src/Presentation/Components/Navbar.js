@@ -92,7 +92,6 @@ const Navbar = () => {
         } else if (path === "/helpandfeedback") {
             setNavbarActive("helpandfeedback");
         }
-        console.log(path);
     }, [window.location.pathname]);
 
     const getLinkClass = (route) => navbarActive === route ? "nav-link nav-active" : "nav-link";

@@ -5,8 +5,6 @@ async function addAttemptedMockToUser(req, res) {
     const { userId, data } = req.body;
     let score = 0;
 
-    console.log("Connected to addAttemptedMockToUser");
-    console.log("Received data:", data);
 
     // Find user and ensure they exist
     const user = await User.findById(userId);
@@ -14,7 +12,6 @@ async function addAttemptedMockToUser(req, res) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    console.log("User found:", userId);
 
     // Check if the mock exists in attempting_mocks
     const mockIndex = user.attempting_mocks.findIndex(
@@ -25,7 +22,6 @@ async function addAttemptedMockToUser(req, res) {
       return res.status(404).json({ error: "Mock not found in attempting_mocks" });
     }
 
-    console.log("Mock found at index:", mockIndex);
 
     // Remove the mock from attempting_mocks
     user.attempting_mocks.splice(mockIndex, 1);
@@ -51,7 +47,6 @@ async function addAttemptedMockToUser(req, res) {
       { new: true }
     );
 
-    console.log("Mock submitted successfully");
     res.status(200).send("Mock submitted successfully");
   } catch (err) {
     console.error("Error:", err);

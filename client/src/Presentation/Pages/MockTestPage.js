@@ -21,11 +21,10 @@ const MockTestPage = () => {
 
     const isAuthenticated = Array.isArray(data) && data.length === 0 ? false : true;
     if (!isAuthenticated) {
-      console.log("Not authenticated");
       navigate("/signin");
     }
 
-  }, []);
+  }, [data, navigate]);
   
   // Rendered Component
   return (

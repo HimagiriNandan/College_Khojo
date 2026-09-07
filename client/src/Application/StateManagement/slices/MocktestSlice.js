@@ -17,7 +17,6 @@ const mocktestslice = createSlice({
     selectOption(state, action) {
       const { subIndex, questionIndex, option } = action.payload;
       state.data.sections[subIndex].questions[questionIndex].selectedOption = option;
-      console.log(state.data.sections[subIndex].questions[questionIndex].selectedOption);
     },
     clearOption(state, action) {
       const { subIndex, questionIndex } = action.payload;

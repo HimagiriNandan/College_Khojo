@@ -75,7 +75,7 @@ const InstructionPage = () => {
       }
     }
     if (id) fetchData();
-  }, []);
+  }, [dispatch, id]);
 
 
   // Rendered Component

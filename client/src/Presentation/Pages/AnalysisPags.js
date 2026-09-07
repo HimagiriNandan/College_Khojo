@@ -174,7 +174,7 @@ const Analysis = () => {
 
   useEffect(() => {
     setSubject(data.sections[subIndex].name);
-  }, [subIndex]);
+  }, [data.sections, subIndex]);
 
 
   // Rendered Component

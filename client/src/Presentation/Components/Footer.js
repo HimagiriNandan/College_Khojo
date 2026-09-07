@@ -26,7 +26,6 @@ const Footer = () =>{
                 alert("Message sent successfully");
             }
         }catch(err){
-            console.log("Error: " + err.message);
             alert("Please write something in the message and submit")
         }
         

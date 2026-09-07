@@ -28,14 +28,11 @@ const PrivateUniversity = () => {
       setIsloading(true);
       const response = await fetchPrivateUniversities();
       const collegedata = response.data;
-      if (!data) {
-        console.log("Data not found");
-      }
       dispatch(setPrivateColleges(collegedata));
       setIsloading(false);
     }
     fetchData();
-  }, []);
+  }, [dispatch]);
 
 
   // Rendered Component

@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-ro
 import { useSelector,useDispatch,Provider } from 'react-redux';
 import { useEffect } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
-import axios from 'axios';
 
 // Redux Slices and Store Imports
 import { setUserData,setUserId } from './Application/StateManagement/slices/UserSlice';

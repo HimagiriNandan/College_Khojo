@@ -20,17 +20,14 @@ const AvailableMocktests = () => {
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
-  const [confirmation, setConfirmation] = useState(false);
   const [id, setId] = useState("");
   const [isloading, setIsloading] = useState(true);
   const [tests, setTests] = useState([]);
 
   function confirmationModal(work){
     if(work === "start"){
-      setConfirmation(true);
       return;
     }
-    setConfirmation(false);
   }
   
   const startTest = () => {
@@ -80,6 +77,7 @@ const AvailableMocktests = () => {
                       <p id="test-tag" className="tag">300 Marks</p>
                       <p id="test-tag2" className="startbtn">
                         <a
+                          href="#"
                           style={{ color: "white", textDecoration: "none" }}
                           onClick={() => {
                             setId(test._id);

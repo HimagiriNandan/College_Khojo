@@ -31,7 +31,6 @@ const uploadImageIfPresent = async (req, res, next) => {
 
   if (file) {
       try {
-          console.log("Uploading image to Cloudinary...");
           // Use the upload_stream method to upload a Buffer to Cloudinary
           const stream = cloudinary.uploader.upload_stream(
               {
@@ -50,7 +49,6 @@ const uploadImageIfPresent = async (req, res, next) => {
 
                   // Save the secure URL of the uploaded image to the request body
                   req.body.pic = result.secure_url;
-                  console.log("Image uploaded to Cloudinary:", result.secure_url);
                   next();
               }
           );
@@ -83,7 +81,6 @@ const TempUser = require("../Models/TempUser");
 router.get("/privateuniversities", privateuniversities)
 router.post("/signup", async (req, res) => {
   try {
-    console.log('Signup request received');
     const { name, location, email, password } = req.body;
 
     // Validate the email format using a regex pattern
@@ -303,16 +300,11 @@ router.post("/login", async (req, res) => {
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "User not found" });
-    // console.log("User found:", user);
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
-    // console.log("Password match:", isMatch);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Store user session
-    // console.log("User logged in:", user);
     const token = jwt.sign({ id: user._id }, "djbvunvuwheoufheowhfwuhefuhifwuehi", { expiresIn: "1d" });
-    console.log("Token:", token);
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
@@ -334,7 +326,6 @@ router.post("/logout", async (req, res) => {
   
 
   }catch(e){
-    console.log(e);
     return res.status(500).send("Internal Server Error");
   }
 });
