@@ -27,7 +27,6 @@ const AddMockTest = () => {
       // If updating a specific option (a, b, c, d)
       if (field === 'options' && option) {
         updatedSections[sectionIndex].questions[questionIndex].options[option] = value;
-        console.log(updatedSections);
       }else if (field === 'title') {
         prevState[field] = value;
       } else if (sectionIndex !== undefined && questionIndex !== undefined) {
@@ -46,9 +45,7 @@ const AddMockTest = () => {
     e.preventDefault();
 
     const response =await axios.post('http://localhost:5000/mock/addmocktest', mockTest);
-    console.log(response.data);
     // Send mockTest data to the server (this would be done via an API call)
-    console.log(mockTest);
   };
 
   // Prevent page reload without confirmation
@@ -165,7 +162,6 @@ const AddMockTest = () => {
           ))}
 
           <button type="submit" onClick={async()=>{
-            console.log(mockTest)
           }} className="submit-btn">Submit Mock Test</button>
         </form>
       </div>

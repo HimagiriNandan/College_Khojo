@@ -30,7 +30,6 @@ async function sendEmail(email, otp) {
   try {
     // Sending the email using the transporter (await for async operation)
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.response); // Log success message
   } catch (error) {
     console.error('Error sending email:', error); // Log the error if sending fails
   }

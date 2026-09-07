@@ -7,7 +7,6 @@ async function connectToDatabase() {
       useUnifiedTopology: true,
     });
 
-    console.log("Connected to MongoDB successfully using Mongoose!");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
     process.exit(1);

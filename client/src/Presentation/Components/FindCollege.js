@@ -237,7 +237,6 @@ const FindCollege = () => {
                             onChange={(e) => {
                                 const value = e.target.value;
                                 if (selectedCat === "Marks") {
-                                    console.log("marks");
 
                                     handlePercentileChange(-1);
                                     setSelectedCat("Marks");
@@ -245,14 +244,12 @@ const FindCollege = () => {
 
                                     handleMarksChange(value);
                                 } else if (selectedCat === "Percentile") {
-                                    console.log("percentile");
                                     handleMarksChange(-1);
                                     setSelectedCat("Percentile");
                                     handleRankChange(-1);
 
                                     handlePercentileChange(value);
                                 } else if (selectedCat === "Ranking") {
-                                    console.log("ranking");
                                     handleMarksChange(-1);
                                     handlePercentileChange(-1);
                                     setSelectedCat("Ranking");

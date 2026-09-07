@@ -1,12 +1,12 @@
 // React Imports
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
 // Components and Slices Imports
 import Loading from "./Loading";
-import { decrementTime, autoSubmit, startTime } from "../../Application/StateManagement/slices/TimerSlice";
+import { decrementTime, autoSubmit } from "../../Application/StateManagement/slices/TimerSlice";
 import { selectOption, clearOption, setQuestionindex, setSubindex, resetTestData } from "../../Application/StateManagement/slices/MocktestSlice";
 import { setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
 import { ToastContext } from "../../Application/Context";
@@ -109,7 +109,7 @@ const Test = () => {
   }
   useEffect(() => {
     setSubject(data.sections[subIndex].name);
-  },[subIndex]);
+  }, [data.sections, subIndex]);
   
   useEffect(() => {
     if(testSubmitted) return;
@@ -166,7 +166,7 @@ const Test = () => {
     }
   }
 
-  async function onTestEnd(istabSwitched) {
+  const onTestEnd = useCallback(async (istabSwitched) => {
     try {
       setIsloading(true);
       const res = await submitTest({ userId: user_id, data: testData });
@@ -187,7 +187,7 @@ const Test = () => {
     }finally{
       setIsloading(false);
     }
-  }
+  }, [dispatch, navigate, onToast, testData, user_id]);
 
   function reloadfunc() {
     setIsloading(false);
@@ -220,7 +220,7 @@ const Test = () => {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [onToast]);
+  }, [onTestEnd, onToast]);
   
 
   return (

@@ -2,7 +2,6 @@ const User  = require('../Models/userschema');
 
 async function updateProf(req,res){
     const {id,name,location} = req.body;
-    console.log(id);
 
     const user = await User.findById(id);
 

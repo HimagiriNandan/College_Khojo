@@ -7,7 +7,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         const books = await Book.find();
-        console.log(books);
         res.json(books);
     } catch (error) {
         console.error(" Error fetching books:", error);

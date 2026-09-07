@@ -1,7 +1,6 @@
 //React file imports
 import { useState, useContext } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { MdCancel } from "react-icons/md";
 
 //component imports

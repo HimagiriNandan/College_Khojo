@@ -14,7 +14,6 @@ const AvailableMocktests = () => {
       try {
         const response = await axios.post("http://localhost:8000/mock/mocktests");
         const data = await response.data;
-        console.log(data);
         setTests(data.data); // Make sure to access 'data' key in the response
       } catch (error) {
         console.error("Error fetching mock tests:", error);

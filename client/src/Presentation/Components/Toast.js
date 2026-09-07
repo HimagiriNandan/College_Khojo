@@ -10,11 +10,11 @@ const Toast = ({ toast }) => {
     <div className="toast-container">
       <div className={`toast ${toast.type === 'warning' ? "toast-warning" : toast.type === 'error' ? "toast-error" : "toast-success"}`}>
         {toast.type === 'warning' ? (
-          <img src="warning.webp" className="toast-img" />
+          <img src="warning.webp" className="toast-img" alt='warning'/>
         ) : (toast.type === 'error') ? (
-          <img src="Error.webp" className="toast-img" />
+          <img src="Error.webp" className="toast-img" alt='error'/>
         ) : (
-          <img src="success.png" className="toast-img" />
+          <img src="success.png" className="toast-img" alt='success'/>
         )}
         
         <div>
