@@ -1,43 +1,107 @@
-.mainContainer-faq{
+.mainContainer-faq {
   display: flex;
   flex-direction: column;
   margin-top: 50px;
   padding: 0 5% 0 5%;
   margin-bottom: 100px;
-  height: 100vh;
+  min-height: 100vh;
 }
-.childContainer{
+
+.childContainer {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   margin: 10px 20px 10px 20px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
-.questions{
+
+/* Question + expand/collapse icon */
+.questionButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+/* Existing question styling */
+.questions {
   font-size: 20px;
   font-weight: 500;
-  margin-bottom: 5px;
+  margin: 0;
+  padding-right: 20px;
 }
-.faqHeading{
+
+/* Chevron icon */
+.faqIcon {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  margin-right: 5px;
+}
+
+/* Rotate chevron when FAQ is expanded */
+.faqIconOpen {
+  transform: rotate(-135deg);
+}
+
+/* Answer */
+.answers {
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+/* Keyboard accessibility */
+.questionButton:focus-visible {
+  outline: 2px solid #05B97D;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 778px) {
+  .mainContainer-faq {
+    padding: 0 5% 0 5%;
+    margin-bottom: 10px;
+  }
+
+  .childContainer {
+    margin: 10px 0 10px 0;
+    padding: 18px;
+  }
+
+  .faqHeading {
+    padding-left: 0;
+  }
+
+  .questions {
+    font-size: 18px;
+  }
+
+  .answers {
+    font-size: 14px;
+  }
+
+  .faqIcon {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+.faqHeading {
   font-size: 30px;
   color: #05B97D;
   margin-bottom: 20px;
   padding-left: 20px;
-}
-.answers{
-  font-size: 15px;
-  margin-top: 10px;
-}
-
-@media (max-width: 778px){
-  .mainContainer-faq{
-    padding: 0 5% 0 5%;
-    margin-bottom: 10px;
-  }
-  .childContainer{
-    margin: 10px 0 10px 0;
-  }
-  .faqHeading{
-    padding-left: 0;
-  }
 }
