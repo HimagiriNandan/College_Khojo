@@ -54,12 +54,6 @@ const faqs = [
   },
 
   {
-    question: "Can I identify my weak subjects?",
-    answer:
-      "Yes, your test performance can help you identify subjects and topics where you need more practice."
-  },
-
-  {
     question: "How can I prepare for JEE effectively?",
     answer:
       "Follow the JEE syllabus, build strong concepts, practice regularly, take mock tests, and review your mistakes."
