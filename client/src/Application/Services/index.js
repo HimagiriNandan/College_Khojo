@@ -53,29 +53,7 @@ const faqs = [
       "Yes, you can review your score and analyze your performance after completing a mock test."
   },
 
-  {
-    question: "How can I prepare for JEE effectively?",
-    answer:
-      "Follow the JEE syllabus, build strong concepts, practice regularly, take mock tests, and review your mistakes."
-  },
-
-  {
-    question: "Does the website provide college recommendations?",
-    answer:
-      "Yes, we recommend colleges based on your test performance and overall profile."
-  },
-
-  {
-    question: "Can I get career guidance after JEE?",
-    answer:
-      "Yes, we provide information about career paths and opportunities related to different engineering fields."
-  },
-
-  {
-    question: "Which subjects should I focus on for JEE?",
-    answer:
-      "JEE preparation mainly focuses on Physics, Chemistry and Mathematics, so you should maintain a balanced preparation across all three subjects."
-  },
+  
 
   {
     question: "Why should I take mock tests regularly?",
