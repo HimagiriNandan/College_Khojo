@@ -148,7 +148,7 @@ const Navbar = () => {
                     <Link to="/materials">Materials</Link>
                 </div>
                 <div className={getLinkClass("entrancexams")}>
-                    <LiaUniversitySolid className="onHover" />
+                    <LiaUniversitySolid className={"onHover"+(navbarActive==="entrancexams"? " hovered-on-hover":"")} />
                     <Link to="/entrancexams">Entrance Tests</Link>
                 </div>
                 <div className={getLinkClass("helpandfeedback")}>

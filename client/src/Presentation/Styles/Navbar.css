@@ -142,13 +142,12 @@ nav{
     color:#555555;
     height: 1.4rem;
     width: 1.5rem;
+    transition: all 0.3s ease;
 }
 
- .onHover:hover{
-    color:#05B97D;
-    height: 1.6rem;
-    width: 1.6rem;
-}
+.nav-link:hover .onHover,
+.nav-active .onHover,
+.onHover:hover,
 .hovered-on-hover{
     color:#05B97D;
     height: 1.6rem;
