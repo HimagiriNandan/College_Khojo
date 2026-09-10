@@ -9,12 +9,12 @@ require("dotenv").config();
 const isAuthenticated = require("../middleware/auth");
 const privateuniversities = require("../controller/PrivateUniversity");
 const updateuserprofilepic = require("../controller/updateuserprofilepic");
-const sendEmail = require('../controller/emailService');
+const { sendEmail } = require("../controller/emailService");
 const contactus = require("../controller/contactus");
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
-const path = require('path');
 const cloudinary = require('cloudinary').v2;
+
 cloudinary.config({
   cloud_name: 'duyuxtpau', 
   api_key: '521557337532656',  
