@@ -111,34 +111,34 @@ ${message}
                 padding: 20px 0;
               ">
 
-                <p style="
-                  margin: 0 0 12px;
-                  font-size: 14px;
-                ">
-                  <strong>Name:</strong>
-                  ${name}
-                </p>
+               
 
-                <p style="
-                  margin: 0 0 12px;
-                  font-size: 14px;
-                ">
-                  <strong>Email:</strong>
-                  ${email}
-                </p>
+                
 
-                <p style="
-                  margin: 0;
-                  font-size: 14px;
+                <div style="
+                  text-align: center;
                 ">
-                  <strong>Rating:</strong>
-                  <span style="
-                    color: #05B97D;
+
+                  <div style="
+                    font-size: 18px;
                     font-weight: bold;
+                    color: #202124;
+                    margin-bottom: 10px;
                   ">
-                    ${rating}/5
-                  </span>
-                </p>
+                    Rating
+                  </div>
+
+                  <div style="
+                    color: #FFB800;
+                    font-size: 30px;
+                    font-weight: bold;
+                    letter-spacing: 4px;
+                    line-height: 1;
+                  ">
+                    ${"★".repeat(Math.round(rating))}${"☆".repeat(5 - Math.round(rating))}
+                  </div>
+
+                </div>
 
               </div>
 
