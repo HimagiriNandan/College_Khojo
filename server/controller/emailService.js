@@ -1,38 +1,89 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+const otpEmailTemplate = require("../templates/otpEmail");
+const feedbackEmailTemplate = require("../templates/feedbackEmail");
+
 const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 587,         
-  secure: false,        
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.USER,  // Your SMTP login (Email)
-    pass: process.env.KEY,   // Your SMTP master password
+    user: process.env.USER,
+    pass: process.env.KEY,
   },
 });
 
-// Send email function
+
+// Send OTP email
 async function sendEmail(email, otp) {
-  // Setting up the email options
+  const template = otpEmailTemplate(otp);
+
   const mailOptions = {
-    from: "khojocollege05@gmail.com", // Sender's email address
-    to: email, // Recipient's email address
-    subject: 'OTP Verification for Account Creation on Khojo College', // Email subject
-    text: `Your OTP is: ${otp}`, // Plain-text body with OTP
-    html: `
-      <html>
-        <body>
-          <h1>Your OTP for account creation is: ${otp}</h1>
-        </body>
-      </html>`, // HTML content with OTP
+    from: "khojocollege05@gmail.com",
+    to: email,
+    subject: template.subject,
+    text: template.text,
+    html: template.html,
   };
 
   try {
-    // Sending the email using the transporter (await for async operation)
     const info = await transporter.sendMail(mailOptions);
+
+    console.log(
+      "OTP email sent successfully:",
+      info.messageId
+    );
   } catch (error) {
-    console.error('Error sending email:', error); // Log the error if sending fails
+    console.error("Error sending OTP email:", error);
   }
 }
 
-module.exports = sendEmail;
+
+// Send feedback email to admin
+async function sendFeedbackEmail({
+  name,
+  email,
+  message,
+  rating,
+}) {
+  const template = feedbackEmailTemplate({
+    name,
+    email,
+    message,
+    rating,
+  });
+
+  const mailOptions = {
+    from: "khojocollege05@gmail.com",
+    to: "khojocollege05@gmail.com",
+    replyTo: email,
+    subject: template.subject,
+    text: template.text,
+    html: template.html,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log(
+      "Feedback email sent successfully:",
+      info.messageId
+    );
+
+    return true;
+  } catch (error) {
+    console.error(
+      "Error sending feedback email:",
+      error
+    );
+
+    return false;
+  }
+}
+
+
+module.exports = {
+  sendEmail,
+  sendFeedbackEmail,
+};
