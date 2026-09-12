@@ -1,8 +1,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const otpEmailTemplate = require("../templates/otpEmail");
-const feedbackEmailTemplate = require("../templates/feedbackEmail");
+const templates = require("../utils");
 
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
@@ -14,76 +13,39 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const emailTemplates = {
+  otp: (data) => templates.otpTemplate(data.otp),
+  feedback: (data) => templates.feedbackTemplate(data),
+};
 
-// Send OTP email
-async function sendEmail(email, otp) {
-  const template = otpEmailTemplate(otp);
+async function sendEmail({ type, to, data, replyTo }) {
+  const createTemplate = emailTemplates[type];
+
+  const template = createTemplate(data);
 
   const mailOptions = {
     from: "khojocollege05@gmail.com",
-    to: email,
+    to,
     subject: template.subject,
     text: template.text,
     html: template.html,
   };
 
-  try {
-    const info = await transporter.sendMail(mailOptions);
-
-    console.log(
-      "OTP email sent successfully:",
-      info.messageId
-    );
-  } catch (error) {
-    console.error("Error sending OTP email:", error);
+  if (replyTo) {
+    mailOptions.replyTo = replyTo;
   }
-}
-
-
-// Send feedback email to admin
-async function sendFeedbackEmail({
-  name,
-  email,
-  message,
-  rating,
-}) {
-  const template = feedbackEmailTemplate({
-    name,
-    email,
-    message,
-    rating,
-  });
-
-  const mailOptions = {
-    from: "khojocollege05@gmail.com",
-    to: "khojocollege05@gmail.com",
-    replyTo: email,
-    subject: template.subject,
-    text: template.text,
-    html: template.html,
-  };
 
   try {
     const info = await transporter.sendMail(mailOptions);
 
-    console.log(
-      "Feedback email sent successfully:",
-      info.messageId
-    );
+    console.log(`${type} email sent successfully:`, info.messageId);
 
     return true;
   } catch (error) {
-    console.error(
-      "Error sending feedback email:",
-      error
-    );
+    console.error(`Error sending ${type} email:`, error);
 
     return false;
   }
 }
 
-
-module.exports = {
-  sendEmail,
-  sendFeedbackEmail,
-};
+module.exports = sendEmail;
