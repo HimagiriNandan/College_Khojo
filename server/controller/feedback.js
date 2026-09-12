@@ -1,5 +1,5 @@
 const FeedBack = require("../Models/FeedBack");
-const { sendFeedbackEmail } = require("./emailService");
+const sendEmail = require("./emailService");
 
 async function feedback(req, res) {
   try {
@@ -18,11 +18,16 @@ async function feedback(req, res) {
     // Send email after successful database save.
     // Email failure should not affect feedback submission.
     try {
-      await sendFeedbackEmail({
-        name,
-        email,
-        message,
-        rating,
+      await sendEmail({
+        type: "feedback",
+        to: "khojocollege05@gmail.com",
+        replyTo: email,
+        data: {
+          name,
+          email,
+          message,
+          rating,
+        },
       });
     } catch (emailError) {
       console.error(

@@ -9,7 +9,7 @@ require("dotenv").config();
 const isAuthenticated = require("../middleware/auth");
 const privateuniversities = require("../controller/PrivateUniversity");
 const updateuserprofilepic = require("../controller/updateuserprofilepic");
-const { sendEmail } = require("../controller/emailService");
+const sendEmail = require("../controller/emailService");
 const contactus = require("../controller/contactus");
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
@@ -118,7 +118,13 @@ router.post("/signup", async (req, res) => {
     await newTempUser.save();
 
     // Send OTP email
-    await sendEmail(email, otp);
+    await sendEmail({
+      type: "otp",
+      to: email,
+      data: {
+        otp,
+      },
+    });
 
     // Respond to the client
     res.status(201).json({ message: "User registered successfully. Please verify OTP." });
@@ -191,7 +197,13 @@ router.post("/resetpassword", async (req, res) => {
       otp
     });
     tempUser.save();
-    sendEmail(email, otp);
+    await sendEmail({
+      type: "otp",
+      to: email,
+      data: {
+        otp,
+      },
+    });
 
     res.status(201).json({error:false, message: "Password reset successfully. Please verify OTP." });
 
@@ -255,7 +267,13 @@ router.post("/resetpassword", async (req, res) => {
       otp
     });
     tempUser.save();
-    sendEmail(email, otp);
+    await sendEmail({
+      type: "otp",
+      to: email,
+      data: {
+        otp,
+      },
+    });
 
     res.status(201).json({error:false, message: "Password reset successfully. Please verify OTP." });
 
