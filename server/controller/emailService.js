@@ -21,30 +21,39 @@ const emailTemplates = {
 async function sendEmail({ type, to, data, replyTo }) {
   const createTemplate = emailTemplates[type];
 
-  const template = createTemplate(data);
-
-  const mailOptions = {
-    from: "khojocollege05@gmail.com",
-    to,
-    subject: template.subject,
-    text: template.text,
-    html: template.html,
-  };
-
-  if (replyTo) {
-    mailOptions.replyTo = replyTo;
+  if (!createTemplate) {
+    return {
+      success: false,
+      message: `Unsupported email type: ${type}`,
+    };
   }
 
   try {
-    const info = await transporter.sendMail(mailOptions);
+    const template = createTemplate(data);
 
-    console.log(`${type} email sent successfully:`, info.messageId);
+    const mailOptions = {
+      from: "khojocollege05@gmail.com",
+      to,
+      subject: template.subject,
+      text: template.text,
+      html: template.html,
+    };
 
-    return true;
+    if (replyTo) {
+      mailOptions.replyTo = replyTo;
+    }
+
+    await transporter.sendMail(mailOptions);
+
+    return {
+      success: true,
+      message: `${type} email sent successfully.`,
+    };
   } catch (error) {
-    console.error(`Error sending ${type} email:`, error);
-
-    return false;
+    return {
+      success: false,
+      message: `Unable to send ${type} email: ${error.message}`,
+    };
   }
 }
 
