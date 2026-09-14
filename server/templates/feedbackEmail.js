@@ -64,6 +64,7 @@ ${message}
                 color: #ffffff;
                 font-size: 28px;
                 font-weight: bold;
+                font-family: 'Leckerli One', cursive;
               ">
                 Khojo College
               </div>
