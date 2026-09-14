@@ -1,4 +1,11 @@
 function feedbackEmailTemplate({ name, email, message, rating }) {
+  const escapedMessage = String(message ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
   return {
     subject: `New Feedback Received from ${name}`,
 
@@ -165,7 +172,7 @@ ${message}
                   line-height: 1.6;
                   white-space: pre-wrap;
                 ">
-                  ${message}
+                  ${escapedMessage}
                 </div>
 
               </div>
