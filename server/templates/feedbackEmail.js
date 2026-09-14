@@ -12,9 +12,6 @@ function feedbackEmailTemplate({ name, email, message, rating }) {
     text: `
 New Feedback Received
 
-Name: ${name}
-Email: ${email}
-Rating: ${rating}/5
 
 Feedback:
 ${message}
