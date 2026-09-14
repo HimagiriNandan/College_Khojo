@@ -23,25 +23,42 @@ const FeedbackModal = ({showModal}) => {
   const { onToast } = useContext(ToastContext);
 
 
-  async function submitFeedback(e){
+  async function submitFeedback(e) {
     e.preventDefault();
-    try{
+
+    try {
       setIsloading(true);
+
       const res = await giveFeedback({
         name: username,
         email: email,
         message: description,
         rating: rating
       });
-      if(res.status === 200){
-        onToast({msg: 'Feedback Successfully Submitted', type: 'success'});
+
+      if (res.status === 200) {
+        onToast({
+          msg: res.data.message,
+          type: "success"
+        });
+
         setStat(true);
-      }else{
+      } else {
+        onToast({
+          msg: res.data.message || "Unable to submit the feedback",
+          type: "error"
+        });
+
         setStat(false);
       }
-    }catch(err){
-      onToast({msg: 'Unable to Submit the feedback at the moment', type: 'error'});
-    }finally{
+    } catch (err) {
+      onToast({
+        msg:
+          err.response?.data?.message ||
+          "Unable to submit the feedback at the moment",
+        type: "error"
+      });
+    } finally {
       setIsloading(false);
     }
   }
