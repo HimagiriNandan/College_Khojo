@@ -70,10 +70,10 @@ const uploadImageIfPresent = async (req, res, next) => {
 //  Profile Routes
 router.get("/profile", isAuthenticated, profile);
 router.post("/updateuserprofile", upload.single('profilepic') ,uploadImageIfPresent ,updateuserprofilepic)
-router.post("/updateprofile", updatedprofile);
-router.post("/contactus", contactus);
-router.post("/feedback", feedback);
-router.post("/colleges",colleges);
+router.post("/updateprofile", isAuthenticated,  updatedprofile);
+router.post("/contactus", isAuthenticated, contactus);
+router.post("/feedback", isAuthenticated, feedback);
+router.post("/colleges", isAuthenticated, colleges);
 const TempUser = require("../Models/TempUser");
 
 
