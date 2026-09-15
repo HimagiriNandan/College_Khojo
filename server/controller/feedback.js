@@ -1,13 +1,23 @@
 const FeedBack = require("../Models/FeedBack");
+const User = require("../Models/userschema");
 const sendEmail = require("./emailService");
 
 async function feedback(req, res) {
   try {
-    const { name, email, message, rating } = req.body;
+    const {message, rating } = req.body;
+
+    const user = await User.findById(req.body.user_id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
 
     const feedBack = new FeedBack({
-      name,
-      email,
+      name: user.name,
+      email: user.email,
       message,
       rating,
     });
@@ -17,10 +27,10 @@ async function feedback(req, res) {
     const emailResult = await sendEmail({
       type: "feedback",
       to: "khojocollege05@gmail.com",
-      replyTo: email,
+      replyTo: user.email,
       data: {
-        name,
-        email,
+        name: user.name,
+        email: user.email,
         message,
         rating,
       },
