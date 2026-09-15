@@ -84,7 +84,24 @@
   color: gold;
 }
 
+/* Desktop and tablet screens */
+@media (width > 48rem){
 
+  .feedbackModal{
+    width: clamp(450px, 55vw, 800px);
+    box-sizing: border-box;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .feedbackmodalinputs{
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+}
+
+/* Mobile screens */
 @media (width <= 48rem){
   .feedbackModal{
     width: 80%;
