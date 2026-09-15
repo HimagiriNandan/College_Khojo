@@ -9,12 +9,12 @@ require("dotenv").config();
 const isAuthenticated = require("../middleware/auth");
 const privateuniversities = require("../controller/PrivateUniversity");
 const updateuserprofilepic = require("../controller/updateuserprofilepic");
-const sendEmail = require('../controller/emailService');
+const sendEmail = require("../controller/emailService");
 const contactus = require("../controller/contactus");
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
-const path = require('path');
 const cloudinary = require('cloudinary').v2;
+
 cloudinary.config({
   cloud_name: 'duyuxtpau', 
   api_key: '521557337532656',  
@@ -70,10 +70,10 @@ const uploadImageIfPresent = async (req, res, next) => {
 //  Profile Routes
 router.get("/profile", isAuthenticated, profile);
 router.post("/updateuserprofile", upload.single('profilepic') ,uploadImageIfPresent ,updateuserprofilepic)
-router.post("/updateprofile", updatedprofile);
-router.post("/contactus", contactus);
-router.post("/feedback", feedback);
-router.post("/colleges",colleges);
+router.post("/updateprofile", isAuthenticated,  updatedprofile);
+router.post("/contactus", isAuthenticated, contactus);
+router.post("/feedback", isAuthenticated, feedback);
+router.post("/colleges", isAuthenticated, colleges);
 const TempUser = require("../Models/TempUser");
 
 
@@ -118,7 +118,13 @@ router.post("/signup", async (req, res) => {
     await newTempUser.save();
 
     // Send OTP email
-    await sendEmail(email, otp);
+    await sendEmail({
+      type: "otp",
+      to: email,
+      data: {
+        otp,
+      },
+    });
 
     // Respond to the client
     res.status(201).json({ message: "User registered successfully. Please verify OTP." });
@@ -191,7 +197,13 @@ router.post("/resetpassword", async (req, res) => {
       otp
     });
     tempUser.save();
-    sendEmail(email, otp);
+    await sendEmail({
+      type: "otp",
+      to: email,
+      data: {
+        otp,
+      },
+    });
 
     res.status(201).json({error:false, message: "Password reset successfully. Please verify OTP." });
 
@@ -255,7 +267,13 @@ router.post("/resetpassword", async (req, res) => {
       otp
     });
     tempUser.save();
-    sendEmail(email, otp);
+    await sendEmail({
+      type: "otp",
+      to: email,
+      data: {
+        otp,
+      },
+    });
 
     res.status(201).json({error:false, message: "Password reset successfully. Please verify OTP." });
 

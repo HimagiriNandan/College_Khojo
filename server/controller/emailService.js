@@ -1,37 +1,59 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+const templates = require("../utils");
+
 const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 587,         
-  secure: false,        
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.USER,  // Your SMTP login (Email)
-    pass: process.env.KEY,   // Your SMTP master password
+    user: process.env.USER,
+    pass: process.env.KEY,
   },
 });
 
-// Send email function
-async function sendEmail(email, otp) {
-  // Setting up the email options
-  const mailOptions = {
-    from: "khojocollege05@gmail.com", // Sender's email address
-    to: email, // Recipient's email address
-    subject: 'OTP Verification for Account Creation on Khojo College', // Email subject
-    text: `Your OTP is: ${otp}`, // Plain-text body with OTP
-    html: `
-      <html>
-        <body>
-          <h1>Your OTP for account creation is: ${otp}</h1>
-        </body>
-      </html>`, // HTML content with OTP
-  };
+const emailTemplates = {
+  otp: (data) => templates.otpTemplate(data.otp),
+  feedback: (data) => templates.feedbackTemplate(data),
+};
+
+async function sendEmail({ type, to, data, replyTo }) {
+  const createTemplate = emailTemplates[type];
+
+  if (!createTemplate) {
+    return {
+      success: false,
+      message: `Unsupported email type: ${type}`,
+    };
+  }
 
   try {
-    // Sending the email using the transporter (await for async operation)
-    const info = await transporter.sendMail(mailOptions);
+    const template = createTemplate(data);
+
+    const mailOptions = {
+      from: "khojocollege05@gmail.com",
+      to,
+      subject: template.subject,
+      text: template.text,
+      html: template.html,
+    };
+
+    if (replyTo) {
+      mailOptions.replyTo = replyTo;
+    }
+
+    await transporter.sendMail(mailOptions);
+
+    return {
+      success: true,
+      message: `${type} email sent successfully.`,
+    };
   } catch (error) {
-    console.error('Error sending email:', error); // Log the error if sending fails
+    return {
+      success: false,
+      message: `Unable to send ${type} email: ${error.message}`,
+    };
   }
 }
 
