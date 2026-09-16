@@ -47,28 +47,59 @@ const SideBar = ({ subject, sidebarOpen, data, subIndex, questionIndex, dispatch
 }
 
 // Options Component
+
+const getImage = (imageLink) => {
+  if (typeof imageLink !== "string") {
+    return null;
+  }
+
+  const image = imageLink.trim();
+
+  return image !== "" ? image : null;
+};
+
 const Options = ({ data, ghost, setGhost, subIndex, questionIndex, selectedoption, setSelectedoption, dispatch }) => {
   return (
     <div className="test-options">
       <div className={"test-option" + (ghost === true ? (selectedoption === "a" ? " test-opt-enabled" : "") : ("a" === data.sections[subIndex].questions[questionIndex].selectedOption ? " test-opt-enabled" : ""))} onClick={(e) => { dispatch(selectOption({ subIndex, questionIndex, option: "a" })); setGhost(true); setSelectedoption("a") }}>
         <p>A</p>
         <p>{data.sections[subIndex].questions[questionIndex].options.a}</p>
-        {data.sections[subIndex].questions[questionIndex].options.a_image_link !== "" && <img src={data.sections[subIndex].questions[questionIndex].options.a_image_link} alt="option" />}
+        {getImage(data.sections[subIndex].questions[questionIndex].options.a_image_link) && (
+          <img
+            src={getImage(data.sections[subIndex].questions[questionIndex].options.a_image_link)}
+            alt="option"
+          />
+        )}
       </div>
       <div className={"test-option" + (ghost === true ? (selectedoption === "b" ? " test-opt-enabled" : "") : ("b" === data.sections[subIndex].questions[questionIndex].selectedOption ? " test-opt-enabled" : ""))} onClick={(e) => { dispatch(selectOption({ subIndex, questionIndex, option: "b" })); setGhost(true); setSelectedoption("b") }}>
         <p>B</p>
         <p>{data.sections[subIndex].questions[questionIndex].options.b}</p>
-        {data.sections[subIndex].questions[questionIndex].options.b_image_link !== "" && <img src={data.sections[subIndex].questions[questionIndex].options.b_image_link} alt="option" />}
+        {getImage(data.sections[subIndex].questions[questionIndex].options.b_image_link) && (
+          <img
+            src={getImage(data.sections[subIndex].questions[questionIndex].options.b_image_link)}
+            alt="option"
+          />
+        )}
       </div>
       <div className={"test-option" + (ghost === true ? (selectedoption === "c" ? " test-opt-enabled" : "") : ("c" === data.sections[subIndex].questions[questionIndex].selectedOption ? " test-opt-enabled" : ""))} onClick={(e) => { dispatch(selectOption({ subIndex, questionIndex, option: "c" })); setGhost(true); setSelectedoption("c") }}>
         <p>C</p>
         <p>{data.sections[subIndex].questions[questionIndex].options.c}</p>
-        {data.sections[subIndex].questions[questionIndex].options.c_image_link !== "" && <img src={data.sections[subIndex].questions[questionIndex].options.c_image_link} alt="option" />}
+        {getImage(data.sections[subIndex].questions[questionIndex].options.c_image_link) && (
+          <img
+            src={getImage(data.sections[subIndex].questions[questionIndex].options.c_image_link)}
+            alt="option"
+          />
+        )}
       </div>
       <div className={"test-option" + (ghost === true ? (selectedoption === "d" ? " test-opt-enabled" : "") : ("d" === data.sections[subIndex].questions[questionIndex].selectedOption ? " test-opt-enabled" : ""))} onClick={(e) => { dispatch(selectOption({ subIndex, questionIndex, option: "d" })); setGhost(true); setSelectedoption("d") }}>
         <p>D</p>
         <p>{data.sections[subIndex].questions[questionIndex].options.d}</p>
-        {data.sections[subIndex].questions[questionIndex].options.d_image_link !== "" && <img src={data.sections[subIndex].questions[questionIndex].options.d_image_link} alt="option" />}
+        {getImage(data.sections[subIndex].questions[questionIndex].options.d_image_link) && (
+          <img
+            src={getImage(data.sections[subIndex].questions[questionIndex].options.d_image_link)}
+            alt="option"
+          />
+        )}
       </div>
     </div>
   )
