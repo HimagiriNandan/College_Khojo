@@ -7,7 +7,7 @@ import React from "react";
 // Components and Slices Imports
 import Loading from "./Loading";
 import { decrementTime, autoSubmit } from "../../Application/StateManagement/slices/TimerSlice";
-import { selectOption, clearOption, setQuestionindex, setSubindex, resetTestData } from "../../Application/StateManagement/slices/MocktestSlice";
+import { selectOption, clearOption, setQuestionindex, setSubindex } from "../../Application/StateManagement/slices/MocktestSlice";
 import { setUserData, setUserId } from "../../Application/StateManagement/slices/UserSlice";
 import { ToastContext } from "../../Application/Context";
 
@@ -118,7 +118,7 @@ const Test = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [ghost, setGhost] = useState(false);
   const [isloading, setIsloading] = useState(false);
-  const [subject, setSubject] = useState(data.sections[subIndex].name);
+  const [subject, setSubject] = useState(data?.sections?.[subIndex]?.name || "");
   const [selectedoption, setSelectedoption] = useState("");
 
   const dispatch = useDispatch();
@@ -139,8 +139,10 @@ const Test = () => {
     return `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   }
   useEffect(() => {
-    setSubject(data.sections[subIndex].name);
-  }, [data.sections, subIndex]);
+    if (data?.sections?.[subIndex]) {
+      setSubject(data.sections[subIndex].name);
+    }
+  }, [data, subIndex]);
   
   useEffect(() => {
     if(testSubmitted) return;
@@ -185,11 +187,19 @@ const Test = () => {
 
       });
 
-      if(res.status === 200){
-        onToast({msg: 'Test Paused Successfully!!!', type: 'success'});
-      }
+      if (res.status === 200) {
+        const response = await fetchUserData();
 
-      navigate("/tests");
+        dispatch(setUserData(response.data.data));
+        dispatch(setUserId(response.data.data._id));
+
+        onToast({
+          msg: 'Test Paused Successfully!!!',
+          type: 'success'
+        });
+
+        navigate("/tests");
+      }
     } catch (err) {
       onToast({msg: 'Error Resuming the test', type: 'error'});
     } finally {
@@ -205,14 +215,15 @@ const Test = () => {
       dispatch(setUserData(response.data.data));
       dispatch(setUserId(response.data.data._id));
       if (res.status === 200) {
-        setSubIndex(0);
-        setQuestionIndex(0);
         navigate("/tests");
-        if(!istabSwitched){
-          onToast({msg: 'Test Submitted Successfully...', type: 'success'});
+
+        if (!istabSwitched) {
+          onToast({
+            msg: 'Test Submitted Successfully...',
+            type: 'success'
+          });
         }
       }
-      resetTestData();
     }catch(err){
       onToast({ msg: 'Unable to submit the test', type: 'error'});
     }finally{
@@ -279,10 +290,33 @@ const Test = () => {
 
           <div className="test-body">
             <h1>Question {questionIndex + 1}.</h1>
-            <h2>{data.sections[subIndex].questions[questionIndex].question}</h2>
-            {data.sections[subIndex].questions[questionIndex].question_image !== "" && <img src={data.sections[subIndex].questions[questionIndex].question_image} alt="option" className="test-question-image" />}
 
-            <Options data={data} subIndex={subIndex} questionIndex={questionIndex} selectedoption={selectedoption} setSelectedoption={setSelectedoption} dispatch={dispatch} ghost={ghost} setGhost={setGhost} />
+            {data?.sections?.[subIndex]?.questions?.[questionIndex] && (
+              <>
+                <h2>
+                  {data.sections[subIndex].questions[questionIndex].question}
+                </h2>
+
+                {data.sections[subIndex].questions[questionIndex].question_image !== "" && (
+                  <img
+                    src={data.sections[subIndex].questions[questionIndex].question_image}
+                    alt="option"
+                    className="test-question-image"
+                  />
+                )}
+
+                <Options
+                  data={data}
+                  subIndex={subIndex}
+                  questionIndex={questionIndex}
+                  selectedoption={selectedoption}
+                  setSelectedoption={setSelectedoption}
+                  dispatch={dispatch}
+                  ghost={ghost}
+                  setGhost={setGhost}
+                />
+              </>
+            )}
 
             <div className="test-header" id="test-buttons">
               <button className="herobutton" id="test-nav-btn" onClick={(e) => { dispatch(clearOption({ subIndex, questionIndex })); setSelectedoption("") }}>Clear</button>
