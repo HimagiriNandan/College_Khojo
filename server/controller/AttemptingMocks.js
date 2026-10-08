@@ -29,7 +29,7 @@ async function addMockToUser(req, res) {
     if (mockIndex !== -1 && change === "modify") {
       user.attempting_mocks[mockIndex] = { ...data, timer: timer };
     } else if (mockIndex === -1) {
-      user.attempting_mocks.push(data);
+      user.attempting_mocks.push({...data, timer: timer });
     }
 
     // Save using findOneAndUpdate to avoid version errors

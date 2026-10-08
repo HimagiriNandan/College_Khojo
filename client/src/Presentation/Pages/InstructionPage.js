@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Slices Imports
-import { setMockTestData } from "../../Application/StateManagement/slices/MocktestSlice";
+import { setMockTestData, setSubindex,
+  setQuestionindex } from "../../Application/StateManagement/slices/MocktestSlice";
 import { resetTime, setTime } from "../../Application/StateManagement/slices/TimerSlice";
 
 // Components Imports
@@ -44,6 +45,8 @@ const InstructionPage = () => {
         dispatch(setTime(res.data.data.timer));
         navigate("/test");
       } else {
+        dispatch(setSubindex({ subIndex: 0 }));
+        dispatch(setQuestionindex({ questionIndex: 0 }));
         navigate("/test");
       }
     } catch (error) {

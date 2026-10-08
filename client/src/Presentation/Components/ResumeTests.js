@@ -30,16 +30,21 @@ const ResumeTests = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        setTests(data);
+        setTests(data || []);
       } catch (error) {
         onToast({msg: 'Server is not responding', type: 'error'});
       }
     }
+
     fetchData();
-    if(data.length > 0){
-      onToast({msg: "👋 Don't forget to complete your test!", type: 'warning'});
+
+    if (data?.length > 0) {
+      onToast({
+        msg: "👋 Don't forget to complete your test!",
+        type: 'warning'
+      });
     }
-  }, []);
+  }, [data, onToast]);
 
   return (
     <div className="mocktestmaincontainer">
