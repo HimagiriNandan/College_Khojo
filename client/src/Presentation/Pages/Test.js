@@ -118,7 +118,7 @@ const Test = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [ghost, setGhost] = useState(false);
   const [isloading, setIsloading] = useState(false);
-  const [subject, setSubject] = useState(data?.sections?.[subIndex]?.name || "");
+  const [subject, setSubject] = useState(data.sections[subIndex].name);
   const [selectedoption, setSelectedoption] = useState("");
 
   const dispatch = useDispatch();
