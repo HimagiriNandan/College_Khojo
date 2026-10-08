@@ -291,7 +291,7 @@ const Test = () => {
           <div className="test-body">
             <h1>Question {questionIndex + 1}.</h1>
 
-            {data?.sections?.[subIndex]?.questions?.[questionIndex] && (
+            {data.sections[subIndex].questions[questionIndex] && (
               <>
                 <h2>
                   {data.sections[subIndex].questions[questionIndex].question}
